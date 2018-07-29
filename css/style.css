@@ -33,6 +33,12 @@
     cursor: move;
 }
 
+#events-header:hover {
+    text-decoration: underline;
+    cursor: pointer;
+    display: inline;
+}
+
 #add_button {
     float: right;
 }
@@ -42,22 +48,6 @@
     text-align: center;
 }
 
-.row {
-    height: 93.6%;
-    padding: 0;
-    margin: 0;
-}
-
-.col {
-    padding: 0;
-}
-
 .color-primary {
     background-color: #F6343C;
-}
-
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
 }
