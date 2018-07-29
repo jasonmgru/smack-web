@@ -9,22 +9,25 @@
         <link rel="stylesheet" href="css/bootstrap.css">
         <link rel="stylesheet" href="css/style.css">
     </head>
-
-    <!-- NAVBAR -->
-    <nav id="nav" class="navbar navbar-dark color-primary">
-        <div style="margin: auto;">
-            <a class="navbar-brand" id="page-title" href="#">Smack!</a>
-        </div>
-    </nav>
-
     <body>
+
+        <!-- NAVBAR -->
+        <nav id="nav" class="navbar navbar-dark color-primary">
+            <div style="margin: auto;">
+                <a class="navbar-brand" id="page-title" href="#">Smack!</a>
+            </div>
+        </nav>
+
+        <!-- MAP -->
         <div id="map"></div>
+
+        <!-- EVENTS LIST -->
         <ul id="list" class="list-group">
             <li id="listheader" class="list-group-item">
                 <span id="events-header" data-toggle="collapse" href=".events-collapse">Events</span>
                 <a id="add_button" href="https://www.w3schools.com/css/css3_shadows.asp"><img src="img/add_button.svg"></a>
             </li>
-            <span class="events-collapse">
+            <span class="events-collapse collapse show">
                 <li class="list-group-item">Cras justo odio</li>
                 <li class="list-group-item">Dapibus ac facilisis in</li>
                 <li class="list-group-item">Morbi leo risus</li>
@@ -33,11 +36,15 @@
             </span>
         </ul>
 
+        <!-- BOOTSTRAP -->
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-        <script src="js/script.js"></script>
+        <!-- GOOGLE MAPS -->
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAadlWbE-H5rXrXEiyN9bVD_bCVjH8Hv28&callback=initMap" async defer></script>
+        
+        <!-- CUSTOM SCRIPT -->
+        <script src="js/script.js"></script>
     </body>
 </html>
