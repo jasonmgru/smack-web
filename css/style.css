@@ -1,6 +1,45 @@
+@font-face {
+    font-family: smack;
+    src: url(../font/comic.ttf) format("truetype");
+}
+
+#page-title {
+    font-family: smack;
+    font-size: 2em;
+    align-content: center;
+}
+
 #map {
-    height: 100%;
+    height: 94%;
     width: 100%;
+    position: absolute;
+}
+
+#list {
+    width: 20vw;
+    position: absolute;
+    right: 3.5vw;
+    top: 6vw;
+}
+
+#listheader {
+    background-color: #eee;
+    font-size: 1.3em;
+    font-weight: bold;
+    color: gray;
+}
+
+#listheader:hover {
+    cursor: move;
+}
+
+#add_button {
+    float: right;
+}
+
+.navbar-brand {
+    width: 100%;
+    text-align: center;
 }
 
 .row {
@@ -11,6 +50,10 @@
 
 .col {
     padding: 0;
+}
+
+.color-primary {
+    background-color: #F6343C;
 }
 
 html, body {
