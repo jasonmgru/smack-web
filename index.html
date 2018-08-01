@@ -23,9 +23,9 @@
 
         <!-- EVENTS LIST -->
         <div id="list">
-            <li id="listheader" class="list-group-item">
+            <li id="listheader" class="list-group-item list-header">
                 <span id="events-header" data-toggle="collapse" href=".events-collapse">Events</span>
-                <a id="add_button" href="https://www.w3schools.com/css/css3_shadows.asp"><img src="img/add_button.svg"></a>
+                <div class="ml-auto"><img id="add_button" src="img/add_button.svg" data-toggle="modal" data-target="#addEventModal"></div>
             </li>
             <ul class="list-group events-collapse collapse show" style="padding:0; margin:0;">
                 <li class="list-group-item list-group-item-action">Cras justo odio</li>
@@ -62,25 +62,58 @@
         </div>
 
         <!-- RADIO BUTTONS -->
-        <div id ="radio" class="btn-group btn-group-toggle" data-toggle="buttons">
-            <label class="btn btn-secondary active" onclick="onMinneapolisButtonPressed()">
-                <input type="radio" name="options" id="minneapolis_button" autocomplete="off" checked> Minneapolis
-            </label>
-            <label class="btn btn-secondary" onclick="onStPaulButtonPressed()">
-                <input type="radio" name="options" id="st_paul_button" autocomplete="off"> St. Paul
-            </label>
+        <div id="selector" class="btn-group">
+                <button id="mpls" class="btn btn-smack" onclick="onRadioButtonPressed(event)">Minneapolis</button>
+                <button id="stpl" class="btn btn-smack" onclick="onRadioButtonPressed(event)">St. Paul</button>
         </div>
+      
+        <!-- ADD EVENT MODAL -->
+        <div class="modal" id="addEventModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color: #eee;">
+                        <h5 class="modal-title list-header" style="color: gray;" id="exampleModalLabel">Add an Event</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form id="add_event_form">
+                        <div class="modal-body">
+                            <input id="title" name="add-event-input" type="text" required placeholder="title">
+                            <input id="host" type="text" name="add-event-input" required placeholder="host">
+                            <input id="description" type="text" name="add-event-input" placeholder="description">
+                            <input id="address" type="text" name="add-event-input" placeholder="address"></input>                            
+                            <input id="dollars" type="number" name="add-event-input" placeholder="dollars">
+                            <input id="cents" type="number" name="add-event-input" placeholder="cents">
+                            <input id="start" type="datetime" name="add-event-input" placeholder="start time">
+                            <input id="end" type="datetime" name="add-event-input" placeholder="end time">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-submit">Add Event</button>
+                            <button type="reset" class="btn btn-secondary">Reset</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- FIREBASE -->        
+        <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-database.js"></script>
 
         <!-- BOOTSTRAP -->
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-        <!-- GOOGLE MAPS -->
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAadlWbE-H5rXrXEiyN9bVD_bCVjH8Hv28&callback=initMap" async defer></script>
+        <!-- GOOGLE MAPS / PLACES -->
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAadlWbE-H5rXrXEiyN9bVD_bCVjH8Hv28&libraries=places&callback=initGoogle" async defer></script>
         
         <!-- CUSTOM SCRIPT -->
-        <!-- <script src="js/draggable_behavior.js"></script> -->
-        <script src="js/map_behavior.js"></script>
+        <script src="js/Repository.js"></script>
+        <script src="js/ViewModel.js"></script>
+        <script src="js/ViewController.js"></script>
+        <script src="js/setup.js"></script>
+
     </body>
 </html>
