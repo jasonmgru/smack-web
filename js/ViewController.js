@@ -21,9 +21,12 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
             zoom: MINNEAPOLIS.zoom
         });
 
+        this.viewModel.data.subscribe( (event, index) => {
+            this.addMarkerAndListItem(event);
+        });
+        
         this.autocomplete = new google.maps.places.Autocomplete(
-            (document.getElementById('address')),
-            {types: ['geocode']});
+            (document.getElementById('address')));
             
         var viewModelCapture = this.viewModel;
         var autocompleteCapture = this.autocomplete;
@@ -33,6 +36,27 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
                 viewModelCapture.lat = place.geometry.location.lat();
                 viewModelCapture.lng = place.geometry.location.lng();
             }
+        });
+    }
+
+    addMarkerAndListItem(event) {
+        this.list.innerHTML += 
+            "<li "+"id="+event.key+" class='list-group-item list-group-item-action'>" 
+            + event.title + "</li>";
+        var position = {lat: parseFloat(event.lat), lng: parseFloat(event.lng)};
+        var marker = new google.maps.Marker({
+            position: position,
+            map: this.map,
+            title: event.title
+        });
+        var infowindow = new google.maps.InfoWindow({
+            content: "<h5>" + event.title + "</h5>" + 
+                     "<p>" + event.start + " - " + event.end + "</p>" 
+        });
+        marker.addListener("click", () => {
+            if (this.infowindow != null) this.infowindow.close();
+            this.infowindow = infowindow;
+            this.infowindow.open(this.map, marker);
         });
     }
       
@@ -71,6 +95,7 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
             event[element.id] = element.value;
         });
         this.viewModel.addEvent(event);
+        $("#addEventModal").modal("toggle");
     }
 
     /**
@@ -82,6 +107,8 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
         this.viewModel = viewModel;
         this.map;
         this.autocomplete;
+        this.infowindow;
+        this.list = document.getElementById("events-list");
 
         document.getElementById("add_event_form").addEventListener("submit", (event) => this.onSubmitButtonPressed(event));
         

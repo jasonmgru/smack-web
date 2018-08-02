@@ -3,7 +3,6 @@
  * of a data change.
  */
 class Observable {
-
     /**
      * Adds a function to the observers list. Whenever the data in this object is 
      * updated, all observers are called with the new value passed in as a
@@ -13,6 +12,7 @@ class Observable {
      */
     subscribe(observer) {
         this.observers.push(observer);
+        observer(this.value);
     }
 
     /**
@@ -33,7 +33,7 @@ class Observable {
     set(newValue) {
         if (newValue !== this.value) {
             this.value = newValue;
-            this.observers.forEach((subscriber) => subscriber(this.value));
+            this.observers.forEach((observer) => observer(this.value));
         }
     }
 
@@ -48,7 +48,6 @@ class Observable {
  * of a data change.
  */
 class ObservableList {
-
     /**
      * Adds a function to the observers list. Whenever the data in this object is 
      * updated, all observers are called with the new value passed in as a
@@ -58,6 +57,9 @@ class ObservableList {
      */
     subscribe(observer) {
         this.observers.push(observer);
+        this.value.forEach( (value, index) => {
+            observer(value, index);
+        });
     }
 
     /**
@@ -77,7 +79,7 @@ class ObservableList {
      */
     push(newValue) {
         this.value.push(newValue);
-        this.observers.forEach((subscriber) => subscriber(newValue, this.value.length-1));
+        this.observers.forEach((observer) => observer(newValue, this.value.length-1));
     }
 
     constructor() {
