@@ -5,7 +5,16 @@
  * the code would work the same. Also, the repo is responsible for caching data and seamlessly
  * integrating the cached data with the data fetched from the database.
  */
-class Repository {
+/* SINGLETON */ class Repository {
+    /**
+     * Adds an event to the database.
+     * 
+     * @param {object} event The event to be added. 
+     */
+    addEvent(event) {
+        this.databaseReference.push(event);
+    }
+
     /**
      * Constructor.
      */
@@ -22,7 +31,10 @@ class Repository {
 
         this.events = new ObservableList();
         this.databaseReference = firebase.database().ref("events");
-        this.databaseReference.on("child_added", (data) => this.events.push(data.val()));
+        this.databaseReference.on("child_added", (data) => {
+            this.events.push(data.val());
+            console.log(data.val());
+        });
 
         console.log("Repository initialized.");
     }

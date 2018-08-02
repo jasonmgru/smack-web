@@ -78,7 +78,6 @@ class ObservableList {
     push(newValue) {
         this.value.push(newValue);
         this.observers.forEach((subscriber) => subscriber(newValue, this.value.length-1));
-        console.log(newValue);
     }
 
     constructor() {
