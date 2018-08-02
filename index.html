@@ -27,38 +27,7 @@
                 <span id="events-header" data-toggle="collapse" href=".events-collapse">Events</span>
                 <div class="ml-auto"><img id="add_button" src="img/add_button.svg" data-toggle="modal" data-target="#addEventModal"></div>
             </li>
-            <ul class="list-group events-collapse collapse show" style="padding:0; margin:0;">
-                <li class="list-group-item list-group-item-action">Cras justo odio</li>
-                <li class="list-group-item">Dapibus ac facilisis in</li>
-                <li class="list-group-item">Morbi leo risus</li>
-                <li class="list-group-item">Porta ac consectetur ac</li>
-                <li class="list-group-item">Vestibulum at eros</li>
-                <li class="list-group-item">Cras justo odio</li>
-                <li class="list-group-item">Dapibus ac facilisis in</li>
-                <li class="list-group-item">Morbi leo risus</li>
-                <li class="list-group-item">Porta ac consectetur ac</li>
-                <li class="list-group-item">Vestibulum at eros</li>
-                <li class="list-group-item">Cras justo odio</li>
-                <li class="list-group-item">Dapibus ac facilisis in</li>
-                <li class="list-group-item">Morbi leo risus</li>
-                <li class="list-group-item">Porta ac consectetur ac</li>
-                <li class="list-group-item">Vestibulum at eros</li>
-                <li class="list-group-item">Cras justo odio</li>
-                <li class="list-group-item">Dapibus ac facilisis in</li>
-                <li class="list-group-item">Morbi leo risus</li>
-                <li class="list-group-item">Porta ac consectetur ac</li>
-                <li class="list-group-item">Vestibulum at eros</li>
-                <li class="list-group-item">Cras justo odio</li>
-                <li class="list-group-item">Dapibus ac facilisis in</li>
-                <li class="list-group-item">Morbi leo risus</li>
-                <li class="list-group-item">Porta ac consectetur ac</li>
-                <li class="list-group-item">Vestibulum at eros</li>
-                <li class="list-group-item">Cras justo odio</li>
-                <li class="list-group-item">Dapibus ac facilisis in</li>
-                <li class="list-group-item">Morbi leo risus</li>
-                <li class="list-group-item">Porta ac consectetur ac</li>
-                <li class="list-group-item">Vestibulum at eros</li>
-            </ul>
+            <ul id="events-list" class="list-group events-collapse collapse show" style="padding:0; margin:0;" ></ul>
         </div>
 
         <!-- RADIO BUTTONS -->
@@ -89,7 +58,7 @@
                             <input id="end" type="datetime" name="add-event-input" required placeholder="end time">
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-submit" data-toggle="modal" data-target="#addEventModal">Add Event</button>
+                            <button type="submit" class="btn btn-submit">Add Event</button>
                             <button type="reset" class="btn btn-secondary">Reset</button>
                         </div>
                     </form>
