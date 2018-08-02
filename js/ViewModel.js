@@ -11,8 +11,8 @@
      * @param {object} event The event to be added.
      */
     addEvent(event) {
-        event["latutide"] = this.lat;
-        event["longitude"] = this.lng;
+        event["lat"] = this.lat;
+        event["lng"] = this.lng;
         this.lat = null;
         this.lng = null;
 
