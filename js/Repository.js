@@ -31,9 +31,13 @@
 
         this.events = new ObservableList();
         this.databaseReference = firebase.database().ref("events");
-        this.databaseReference.on("child_added", (data) => {
-            this.events.push(data.val());
-            console.log(data.val());
+        this.databaseReference.on("child_added", data => {
+            var event = data.val();
+            event["key"] = data.key;
+            this.events.push(event);
+            console.log(event);
+        }, error => {
+            console.log("Client does not have permission to read from database.");
         });
 
         console.log("Repository initialized.");
