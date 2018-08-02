@@ -25,12 +25,12 @@ class ViewController {
             (document.getElementById('address')),
             {types: ['geocode']});
             
-        
-        alert(this.autocomplete);
+        var viewModelCapture = this.viewModel;
+        var autocompleteCapture = this.autocomplete;
         this.autocomplete.addListener('place_changed', function() {
-            var place = this.autocomplete.getPlace();
-            this.viewModel.lat = place.geometry.location.lat();
-            this.viewModel.lng = place.geometry.location.lng();
+            var place = autocompleteCapture.getPlace();
+            viewModelCapture.lat = place.geometry.location.lat();
+            viewModelCapture.lng = place.geometry.location.lng();
         });
     }
       
@@ -58,11 +58,6 @@ class ViewController {
      */
     onSubmitButtonPressed(e) {
         e.preventDefault();
-
-        if (this.viewModel.lat == null || this.viewModel.lng == null) {
-            alert("We're sorry, but that address can't be found! Please try a different address.");
-            return;
-        }
     
         var event = {}
         document.getElementsByName("add-event-input").forEach(function(element){
@@ -78,8 +73,8 @@ class ViewController {
      */
     constructor(viewModel) {
         this.viewModel = viewModel;
-        this.map = null;
-        this.autocomplete = null;
+        this.map;
+        this.autocomplete;
 
         document.getElementById("add_event_form").addEventListener("submit", (event) => this.onSubmitButtonPressed(event));
         

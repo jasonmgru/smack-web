@@ -30,16 +30,30 @@ class ViewModel {
     }
 
     /**
+     * Sets the latitude and longitude stored in memory.
+     * 
+     * @param {number} lat Latitude.
+     * @param {number} lng Longitude.
+     */
+    setLatLng(lat, lng) {
+        this.lat = lat;
+        this.lng = lng;
+        console.log(lat + ", " + lng);
+    }
+
+    /**
      * Constructor.
      * 
      * @param {Repository} repository The Repository that connects to the database.
      */
     constructor(repository) {
-        this.repository = repository;
-        this.repository.databaseReference.on("child_added", (data) => this.eventAddedHandler(data));
+        this.data = repository.events; // This is a pass-through observable list
+        this.error = new Observable("");
 
-        this.lat = null;
-        this.lng = null;
+        this.repository = repository;
+
+        this.lat;
+        this.lng;
 
         console.log("ViewModel initialized.");
     }
