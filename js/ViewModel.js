@@ -37,7 +37,7 @@ class ViewModel {
      * @param {Repository} repository The Repository that connects to the database.
      */
     constructor(repository) {
-        this.data = repository.events; // This is a pass-through observable list
+        this.data = repository.events; // This is a pass-through observable list from repo
         this.error = new Observable("");
 
         this.repository = repository;

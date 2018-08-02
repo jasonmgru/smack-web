@@ -1,3 +1,10 @@
+/**
+ * The repository is responsible for accessing the database and putting data in a nice, abstracted 
+ * layer for the rest of the program. The idea is that all of the database-specific code goes here,
+ * so I could create a different repository for a different database (say Azure) and the rest of 
+ * the code would work the same. Also, the repo is responsible for caching data and seamlessly
+ * integrating the cached data with the data fetched from the database.
+ */
 class Repository {
     /**
      * Constructor.
@@ -13,8 +20,8 @@ class Repository {
         };
         firebase.initializeApp(config);
 
-        this.databaseReference = firebase.database().ref("events");
         this.events = new ObservableList();
+        this.databaseReference = firebase.database().ref("events");
         this.databaseReference.on("child_added", (data) => this.events.push(data.val()));
 
         console.log("Repository initialized.");
