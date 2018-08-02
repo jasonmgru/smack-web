@@ -63,8 +63,8 @@
 
         <!-- RADIO BUTTONS -->
         <div id="selector" class="btn-group">
-                <button id="mpls" class="btn btn-smack" onclick="onRadioButtonPressed(event)">Minneapolis</button>
-                <button id="stpl" class="btn btn-smack" onclick="onRadioButtonPressed(event)">St. Paul</button>
+            <button id="mpls" class="btn btn-smack" onclick="viewController.onRadioButtonPressed(event)">Minneapolis</button>
+            <button id="stpl" class="btn btn-smack" onclick="viewController.onRadioButtonPressed(event)">St. Paul</button>
         </div>
       
         <!-- ADD EVENT MODAL -->
@@ -107,7 +107,7 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
         <!-- GOOGLE MAPS / PLACES -->
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAadlWbE-H5rXrXEiyN9bVD_bCVjH8Hv28&libraries=places&callback=initGoogle" async defer></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAadlWbE-H5rXrXEiyN9bVD_bCVjH8Hv28&libraries=places&callback=viewController.initGoogle" async defer></script>
         
         <!-- CUSTOM SCRIPT -->
         <script src="js/Observable.js"></script>

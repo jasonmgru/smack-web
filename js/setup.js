@@ -15,11 +15,3 @@
 var repository = new Repository();
 var viewModel = new ViewModel(repository);
 var viewController = new ViewController(viewModel);
-
-/**
- * initGoogle is called after Google Maps and Google Places are successfully connected
- * to Google's servers.
- */
-function initGoogle() {
-    viewController.initGoogle();
-}
