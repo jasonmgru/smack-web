@@ -4,16 +4,6 @@
  * from Firebase to Azure? This code doesn't need to change at all.
  */
 class ViewModel {
-
-    /**
-     * Listens for new events being added to the database.
-     * 
-     * @param {DatabaseSnapshot} data The data being added to the database.
-     */
-    eventAddedHandler(data) {
-        console.log(JSON.stringify(data.val()));
-    } 
-
     /**
      * Gets a newly created from UI, adds some fields behind the scenes, and 
      * passes it to Repository to add to database.
