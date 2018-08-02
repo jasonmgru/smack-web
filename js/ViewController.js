@@ -10,7 +10,7 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
  * This is the only class in all of my code which should have any reference to the 
  * document.
  */
-class ViewController {
+/* SINGLETON */ class ViewController {
 
     /**
      * initGoogle is called after Google Maps and Places are successfully reached.
@@ -29,8 +29,10 @@ class ViewController {
         var autocompleteCapture = this.autocomplete;
         this.autocomplete.addListener('place_changed', function() {
             var place = autocompleteCapture.getPlace();
-            viewModelCapture.lat = place.geometry.location.lat();
-            viewModelCapture.lng = place.geometry.location.lng();
+            if (place) {
+                viewModelCapture.lat = place.geometry.location.lat();
+                viewModelCapture.lng = place.geometry.location.lng();
+            }
         });
     }
       
@@ -41,24 +43,29 @@ class ViewController {
      */
     onRadioButtonPressed(event) {
         event = event || window.event;
-        var target = e.target || e.srcElement;
+        var target = event.target || event.srcElement;
         if (target.id == "mpls") {
-            map.panTo(new google.maps.LatLng(MINNEAPOLIS.center.lat, MINNEAPOLIS.center.lng));
-            map.setZoom(MINNEAPOLIS.zoom);
+            this.map.panTo(new google.maps.LatLng(MINNEAPOLIS.center.lat, MINNEAPOLIS.center.lng));
+            this.map.setZoom(MINNEAPOLIS.zoom);
         } else if (target.id == "stpl") {
-            map.panTo(new google.maps.LatLng(ST_PAUL.center.lat, ST_PAUL.center.lng));
-            map.setZoom(ST_PAUL.zoom);
+            this.map.panTo(new google.maps.LatLng(ST_PAUL.center.lat, ST_PAUL.center.lng));
+            this.map.setZoom(ST_PAUL.zoom);
         }
     }
 
     /**
      * Called when the user presses submit to create a new event.
      * 
-     * @param e The event triggering this function.
+     * @param {Event} e The event triggering this function.
      */
     onSubmitButtonPressed(e) {
         e.preventDefault();
     
+        if (this.viewModel.lat == null || this.viewModel.lng == null) {
+            alert("Invalid address! Try clicking on one of the suggested addresses when typing.");
+            return;
+        }
+
         var event = {}
         document.getElementsByName("add-event-input").forEach(function(element){
             event[element.id] = element.value;
