@@ -29,12 +29,12 @@
         };
         firebase.initializeApp(config);
 
-        this.events = new ObservableList();
+        this.events = new ObservableMap();
         this.databaseReference = firebase.database().ref("events");
         this.databaseReference.on("child_added", data => {
             var event = data.val();
             event["key"] = data.key;
-            this.events.push(event);
+            this.events.add(event.key, event);
             console.log(event);
         }, error => {
             console.log("Client does not have permission to read from database.");

@@ -21,8 +21,9 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
             zoom: MINNEAPOLIS.zoom
         });
 
-        this.viewModel.data.subscribe( (event, index) => {
+        this.viewModel.data.subscribe( (key, event) => {
             this.addMarkerAndListItem(event);
+            console.log(this.viewModel.data);
         });
 
         this.autocomplete = new google.maps.places.Autocomplete(
@@ -41,13 +42,8 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
 
     addMarkerAndListItem(event) {
         this.list.innerHTML = 
-            "<li "+"id=" + event.key + " class='list-group-item list-group-item-action' data-toggle='collapse' href='#" + event.key + "collapse'>" +
-                "<p class='events-list-item' style='font-family: smack-sub;'>" + event.title + "</p>" + 
-                "<span class='collapse' id='" + event.key + "collapse'>" + 
-                "<p class='events-list-item'>" + event.address.split(",")[0] + "</p>" +
-                "<span style='color: gray;'>" +
-                    "<p class='events-list-item'>" + event.host + "</p><p class='events-list-item'>" + event.start + " - " + event.end + "</p>" +
-                "</span></span>" + 
+            "<li "+"id=" + event.key + " class='list-group-item list-group-item-action'>" +
+                event.title +
             "</li>" + this.list.innerHTML;
         var position = {lat: parseFloat(event.lat), lng: parseFloat(event.lng)};
         var marker = new google.maps.Marker({
