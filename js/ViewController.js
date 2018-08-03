@@ -24,7 +24,7 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
         this.viewModel.data.subscribe( (event, index) => {
             this.addMarkerAndListItem(event);
         });
-        
+
         this.autocomplete = new google.maps.places.Autocomplete(
             (document.getElementById('address')));
             
@@ -40,9 +40,15 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
     }
 
     addMarkerAndListItem(event) {
-        this.list.innerHTML += 
-            "<li "+"id="+event.key+" class='list-group-item list-group-item-action'>" 
-            + event.title + "</li>";
+        this.list.innerHTML = 
+            "<li "+"id=" + event.key + " class='list-group-item list-group-item-action' data-toggle='collapse' href='#" + event.key + "collapse'>" +
+                "<p class='events-list-item' style='font-family: smack-sub;'>" + event.title + "</p>" + 
+                "<span class='collapse' id='" + event.key + "collapse'>" + 
+                "<p class='events-list-item'>" + event.address.split(",")[0] + "</p>" +
+                "<span style='color: gray;'>" +
+                    "<p class='events-list-item'>" + event.host + "</p><p class='events-list-item'>" + event.start + " - " + event.end + "</p>" +
+                "</span></span>" + 
+            "</li>" + this.list.innerHTML;
         var position = {lat: parseFloat(event.lat), lng: parseFloat(event.lng)};
         var marker = new google.maps.Marker({
             position: position,
@@ -50,9 +56,12 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
             title: event.title
         });
         var infowindow = new google.maps.InfoWindow({
-            content: "<h5>" + event.title + "</h5>" + 
-                     "<p>" + event.start + " - " + event.end + "</p>" 
-        });
+            content: "<h6 style='font-family: smack-sub; margin: 0;'><b>" + event.title + "</b></h6>" + 
+                    event.address.split(",")[0]  + "<br>" +
+                    "<span style='color: gray;'>" 
+                        + event.host + "<br>" + event.start + " - " + event.end + 
+                    "</span>"
+            });
         marker.addListener("click", () => {
             if (this.infowindow != null) this.infowindow.close();
             this.infowindow = infowindow;
