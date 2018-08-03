@@ -3,6 +3,11 @@
     src: url(../font/comic.ttf) format("truetype");
 }
 
+@font-face {
+    font-family: smack-sub;
+    src: url(../font/backissues.otf) format("opentype");
+}
+
 #page-title {
     font-family: smack;
     font-size: 2em;
@@ -56,6 +61,7 @@
     background-color: #ededed;
     font-size: 1.3em;
     font-weight: bold;
+    font-family: smack-sub;
     color: gray;
 }
 
@@ -112,4 +118,8 @@
 input {
     width: 95%;
     margin: 5px 5px 5px 5px;
+}
+
+.events-list-item {
+    margin: 0;
 }
