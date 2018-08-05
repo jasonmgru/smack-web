@@ -41,10 +41,20 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
     }
 
     addMarkerAndListItem(event) {
-        this.list.innerHTML = 
-            "<li "+"id=" + event.key + " class='list-group-item list-group-item-action'>" +
-                event.title +
-            "</li>" + this.list.innerHTML;
+        var title = document.createElement("span");
+        var time = document.createElement("span");
+        title.innerHTML = event.title;
+        time.classList.add("time-list-detail");
+        time.innerHTML = event.start + " - " + event.end;
+
+        var li = document.createElement("li");
+        li.addEventListener("click", () => this.onListItemClicked(event));
+        li.classList.add("list-group-item");
+        li.classList.add("list-group-item-action");
+        this.list.appendChild(li);
+        li.appendChild(title);
+        li.appendChild(time);
+
         var position = {lat: parseFloat(event.lat), lng: parseFloat(event.lng)};
         var marker = new google.maps.Marker({
             position: position,
@@ -64,7 +74,11 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
             this.infowindow.open(this.map, marker);
         });
     }
-      
+
+    onListItemClicked(event) {
+        console.log(event.title);
+    }
+
     /**
      * Called when the user presses one of the radio buttons in the bottom right of the screen.
      * 
