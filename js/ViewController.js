@@ -16,23 +16,23 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
      * initGoogle is called after Google Maps and Places are successfully reached.
      */
     initGoogle() {
+        // Initialize the map
         this.map = new google.maps.Map(document.getElementById('map'), {
             center: MINNEAPOLIS.center,
             zoom: MINNEAPOLIS.zoom
         });
 
+        // Add markers to map
         this.viewModel.data.subscribe( (key, event) => {
             this.addMarkerAndListItem(event);
             console.log(this.viewModel.data);
         });
 
-        this.autocomplete = new google.maps.places.Autocomplete(
-            (document.getElementById('address')));
-            
+        // Add autocomplete to Add Event Form
+        var autocomplete = new google.maps.places.Autocomplete(document.getElementById('address'));
         var viewModelCapture = this.viewModel;
-        var autocompleteCapture = this.autocomplete;
-        this.autocomplete.addListener('place_changed', function() {
-            var place = autocompleteCapture.getPlace();
+        autocomplete.addListener('place_changed', function() {
+            var place = autocomplete.getPlace();
             if (place) {
                 viewModelCapture.lat = place.geometry.location.lat();
                 viewModelCapture.lng = place.geometry.location.lng();
@@ -40,43 +40,106 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
         });
     }
 
+    /**
+     * Adds a marker to the map and a list item to the list for a given event.
+     * This function is pretty long, but it's mostly UI formatting.
+     * 
+     * @param {object} event 
+     */
     addMarkerAndListItem(event) {
-        var title = document.createElement("span");
-        var time = document.createElement("span");
-        title.innerHTML = event.title;
-        time.classList.add("time-list-detail");
-        time.innerHTML = event.start + " - " + event.end;
-
-        var li = document.createElement("li");
-        li.addEventListener("click", () => this.onListItemClicked(event));
-        li.classList.add("list-group-item");
-        li.classList.add("list-group-item-action");
-        this.list.appendChild(li);
-        li.appendChild(title);
-        li.appendChild(time);
-
+        // Adds marker
         var position = {lat: parseFloat(event.lat), lng: parseFloat(event.lng)};
         var marker = new google.maps.Marker({
             position: position,
             map: this.map,
             title: event.title
         });
+        var clickable = document.createElement("div");
+        clickable.addEventListener("click", () => this.onDetailClicked(event));
+        clickable.classList.add("infowindow");
+        var header = document.createElement("h6");
+        header.style.fontFamily = "smack-sub";
+        header.style.fontWeight = "bold";
+        header.style.margin = 0;
+        header.innerHTML = event.title;
+        clickable.appendChild(header);
+        clickable.innerHTML += event.address.split(",")[0] + "<br>" + 
+            "<span style='color: gray;'>" +
+                event.host + "<br>" + event.time + 
+            "</span>"
+
         var infowindow = new google.maps.InfoWindow({
-            content: "<h6 style='font-family: smack-sub; margin: 0;'><b>" + event.title + "</b></h6>" + 
-                    event.address.split(",")[0]  + "<br>" +
-                    "<span style='color: gray;'>" 
-                        + event.host + "<br>" + event.start + " - " + event.end + 
-                    "</span>"
-            });
-        marker.addListener("click", () => {
-            if (this.infowindow != null) this.infowindow.close();
-            this.infowindow = infowindow;
-            this.infowindow.open(this.map, marker);
+            content:clickable
         });
+        marker.addListener("click", () => this.openInfoWindow(infowindow, marker));
+
+        // Adds list item
+        var title = document.createElement("span");
+        var time = document.createElement("span");
+        var location = document.createElement("img");
+        title.style.fontFamily = "smack-sub";
+        title.innerHTML = event.title;
+        time.classList.add("time-list-detail");
+        time.innerHTML = event.time;
+        location.classList.add("location-icon-detail");
+        location.src = "img/location.svg";
+        location.addEventListener("click", (e) => {
+            this.onMarkerIconClicked(event, infowindow, marker);
+            e.stopPropagation();
+        });
+        var li = document.createElement("li");
+        li.addEventListener("click", () => {
+            this.onMarkerIconClicked(event, infowindow, marker);
+            this.onDetailClicked(event);
+        });
+        li.classList.add("list-group-item");
+        li.classList.add("list-group-item-action");
+        li.appendChild(title);
+        li.appendChild(time);
+        li.appendChild(location);
+        this.list.appendChild(li);
     }
 
-    onListItemClicked(event) {
-        console.log(event.title);
+    /**
+     * Opens an infowindow to the ViewController's map above a given marker.
+     * If there is another infowindow open, closes it first.
+     * 
+     * @param {google.maps.InfoWindow} infowindow 
+     * @param {google.maps.Marker} marker 
+     */
+    openInfoWindow(infowindow, marker) {
+        if (this.infowindow != null) this.infowindow.close();
+        this.infowindow = infowindow;
+        this.infowindow.open(this.map, marker);
+    }
+
+    /**
+     * Called when a marker on the map is clicked. Opens an infowindow
+     * above the given marker and pans the map to its position.
+     * 
+     * @param {object} event 
+     * @param {google.maps.InfoWindow} infowindow 
+     * @param {google.maps.Marker} marker 
+     */
+    onMarkerIconClicked(event, infowindow, marker) {
+        this.map.panTo({lat: event.lat, lng: event.lng});
+        this.openInfoWindow(infowindow, marker);
+    }
+
+    /**
+     * Called when a list item or info window is clicked. Opens a modal
+     * to display event details.
+     * 
+     * @param {object} event 
+     */
+    onDetailClicked(event) {
+        document.getElementById("address-display").innerHTML = event.address;
+        document.getElementById("address-display").addEventListener("click", () => $('#eventDetailModal').modal('hide'));
+        document.getElementById("title-display").innerHTML = event.title;
+        document.getElementById("host-display").innerHTML = event.host;
+        document.getElementById("time-display").innerHTML = event.time;
+        document.getElementById("description-display").innerHTML = event.description;
+        $('#eventDetailModal').modal('show');
     }
 
     /**
@@ -88,10 +151,10 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
         event = event || window.event;
         var target = event.target || event.srcElement;
         if (target.id == "mpls") {
-            this.map.panTo(new google.maps.LatLng(MINNEAPOLIS.center.lat, MINNEAPOLIS.center.lng));
+            this.map.panTo(MINNEAPOLIS.center);
             this.map.setZoom(MINNEAPOLIS.zoom);
         } else if (target.id == "stpl") {
-            this.map.panTo(new google.maps.LatLng(ST_PAUL.center.lat, ST_PAUL.center.lng));
+            this.map.panTo(ST_PAUL.center);
             this.map.setZoom(ST_PAUL.zoom);
         }
     }
@@ -125,11 +188,19 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
     constructor(viewModel) {
         this.viewModel = viewModel;
         this.map;
-        this.autocomplete;
         this.infowindow;
         this.list = document.getElementById("events-list");
 
-        document.getElementById("add_event_form").addEventListener("submit", (event) => this.onSubmitButtonPressed(event));
+        $('#start').datetimepicker();
+        $('#end').datetimepicker({
+            useCurrent: false
+        });
+        $("#start").on("change.datetimepicker", function (e) {
+            $('#end').datetimepicker('minDate', e.date);
+        });
+        $("#end").on("change.datetimepicker", function (e) {
+            $('#start').datetimepicker('maxDate', e.date);
+        });
         
         console.log("ViewController initialized.");
     }
