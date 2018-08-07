@@ -16,6 +16,29 @@
     }
 
     /**
+     * Returns a "pretty" time field for the incoming event objects. The first
+     * item is the date, then the time range. If the start and end of the 
+     * event are on the same day, it removes the date from the second 
+     * half of the time range.
+     * 
+     * @param {String} start The start datetime
+     * @param {String} end The end datetime
+     * 
+     * @returns {String} The newly formatted time range.
+     */
+    getPrettyTimeRange(start, end) {
+        var startParts = start.split(" ");
+        var endParts = end.split(" ");
+
+        if (startParts[0] === endParts[0]) {
+            return (startParts[0] + " " + startParts[1] + startParts[2] + 
+                " - " + endParts[1] + endParts[2]).toLowerCase();
+        }
+        return (startParts[0] + " " + startParts[1] + startParts[2] + 
+        " - " + endParts[0] + " " + endParts[1] + endParts[2]).toLowerCase();
+    }
+
+    /**
      * Constructor.
      */
     constructor() {
@@ -33,7 +56,8 @@
         this.databaseReference = firebase.database().ref("events");
         this.databaseReference.on("child_added", data => {
             var event = data.val();
-            event["key"] = data.key;
+            event.key = data.key;
+            event.time = this.getPrettyTimeRange(event.start, event.end);
             this.events.add(event.key, event);
             console.log(event);
         }, error => {
