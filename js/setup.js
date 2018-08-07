@@ -12,6 +12,6 @@
  * one another are passed through the constructor, rather than initialized inside the dependent object.
  */
 
-var repository = new Repository();
-var viewModel = new ViewModel(repository);
-var viewController = new ViewController(viewModel);
+var repository = new Repository(); // Model
+var viewModel = new ViewModel(repository); // ViewModel
+var viewController = new ViewController(viewModel); // View
