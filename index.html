@@ -7,7 +7,9 @@
         <title>Smack! Web Application</title>
     
         <link rel="stylesheet" href="css/bootstrap.css">
-        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/style.css">        
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/css/tempusdominus-bootstrap-4.min.css" />
     </head>
     <body>
 
@@ -24,10 +26,12 @@
         <!-- EVENTS LIST -->
         <div id="list">
             <li id="listheader" class="list-group-item list-header">
-                <span id="events-header" data-toggle="collapse" href=".events-collapse">Events</span>
+                <span id="events-header" data-toggle="collapse" data-target=".collapse-target-1">Events</span>
                 <div class="ml-auto"><img id="add_button" src="img/add_button.svg" data-toggle="modal" data-target="#addEventModal"></div>
             </li>
-            <ul id="events-list" class="list-group events-collapse collapse show" style="padding:0; margin:0;" ></ul>
+            <div class="collapse-target-1 collapse show">
+                <ul id="events-list" class="list-group" style="padding:0; margin:0;" ></ul>
+            </div>
         </div>
 
         <!-- RADIO BUTTONS -->
@@ -37,29 +41,64 @@
         </div>
       
         <!-- ADD EVENT MODAL -->
-        <div class="modal" id="addEventModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal" id="addEventModal" tabindex="-1" role="dialog" aria-labelledby="addEventModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header" style="background-color: #eee;">
-                        <h5 class="modal-title list-header" style="color: gray;" id="exampleModalLabel">Add an Event</h5>
+                        <h5 class="modal-title list-header" style="color: gray;" id="addEventModalLabel">Add an Event</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form id="add_event_form">
-                        <div class="modal-body">
-                            <input id="title" name="add-event-input" type="text" required placeholder="title">
-                            <input id="host" type="text" name="add-event-input" required placeholder="host">
-                            <input id="description" type="text" name="add-event-input" placeholder="description">
-                            <input id="address" type="text" name="add-event-input" required placeholder="address">                        
-                            <input id="start" type="datetime" name="add-event-input" required placeholder="start time">
-                            <input id="end" type="datetime" name="add-event-input" required placeholder="end time">
+                    <form id="add_event_form" onsubmit="viewController.onSubmitButtonPressed(event)">
+                        <div class="modal-body form-group">
+                            <input id="title" class="input-group form-control" name="add-event-input" type="text" required placeholder="title">
+                            <div class="row">
+                                <div class="col">   
+                                    <input id="host" class="input-group form-control" type="text" name="add-event-input" required placeholder="host">
+                                </div>
+                                <div class="col">
+                                    <input id="address" class="input-group form-control" type="text" name="add-event-input" required placeholder="address">  
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <input type="text" id="start" name="add-event-input" class="form-control datetimepicker-input" data-target="#start" data-toggle="datetimepicker" required placeholder="start time"/>
+                                </div>
+                                <div class="col-4">
+                                    <input type="text" id="end" name="add-event-input" class="form-control datetimepicker-input" data-target="#end" data-toggle="datetimepicker" required placeholder="end time"/>
+                                </div>
+                            </div>
+                            <textarea id="description" class="input-group form-control" type="text" name="add-event-input" placeholder="description" rows="6"></textarea>                      
                         </div>
                         <div class="modal-footer">
                             <button type="reset" class="btn btn-secondary">Reset</button>
                             <button type="submit" class="btn btn-submit">Add Event</button>
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- EVENT DETAIL MODAL -->
+        <div class="modal" id="eventDetailModal" tabindex="-1" role="dialog" aria-labelledby="eventDetailModal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color: #eee;">
+                        <h5 class="modal-title list-header" style="color: gray;" id="eventDetailModalLabel">Event Details</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h6 id="title-display" name="event-detail-display" style="font-family: smack-sub; font-weight: bold;"></h6>
+                        <a href="#" id="address-display"></a><br>
+                        <span style="color: gray;">
+                            <span id="host-display"></span><br>
+                            <span id="time-display"></span><br>
+                        </span><br>
+                        <p id="description-display" name="event-detail-display"></p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -73,6 +112,10 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
+        <!-- BOOTSTRAP DATETIME PICKER -->
+        <script src="js/moment.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/js/tempusdominus-bootstrap-4.min.js"></script>
+
         <!-- GOOGLE MAPS / PLACES -->
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAadlWbE-H5rXrXEiyN9bVD_bCVjH8Hv28&libraries=places&callback=viewController.initGoogle" async defer></script>
         
@@ -82,6 +125,7 @@
         <script src="js/ViewModel.js"></script>
         <script src="js/ViewController.js"></script>
         <script src="js/setup.js"></script>
+        <script src="js/draggable_behavior.js"></script>
 
     </body>
 </html>
