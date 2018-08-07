@@ -40,9 +40,9 @@
     bottom: 2vw;
 }
 
-/* #listheader:hover {
+#listheader:hover {
     cursor: move;
-} */
+}
 
 #events-header:hover {
     text-decoration: underline;
@@ -126,4 +126,31 @@ input {
     right: 5px;
     bottom: 0px;
     font-size: .8em;
+}
+
+.location-icon-detail {
+    position: absolute;
+    width: 1em;
+    height: 1em;
+    right: 5px;
+    top: 5px;
+    border-radius: 4px;
+}
+
+.location-icon-detail:hover {
+    background-color: #ccc;
+}
+
+.infowindow {
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.infowindow:hover {
+    cursor: pointer;
+    background-color: #f8f9fa;
+}
+
+.form-control, .calendar-btn {
+    margin: 10px 0 0 0;
 }
