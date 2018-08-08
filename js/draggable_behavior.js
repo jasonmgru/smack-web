@@ -32,26 +32,35 @@ function dragElement(elmnt) {
     pos3 = e.clientX;
     pos4 = e.clientY;
 
-    // set the element's new position:
-    if (elmnt.offsetTop < document.getElementById("nav").offsetHeight) {
+    // Set the element's new vertical position
+    if (elmnt.offsetTop < document.getElementById("nav").offsetHeight + 2) {
       if (pos2 < 0) {
         elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+      } else {
+        elmnt.style.top = (document.getElementById("nav").offsetHeight + 2) + "px";
       }
     } else if (elmnt.offsetTop + elmnt.offsetHeight > document.documentElement.clientHeight) {
       if (pos2 > 0) {
         elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+      } else {
+        elmnt.style.top = (document.documentElement.clientHeight - elmnt.offsetHeight) + "px";
       }
     } else {
       elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
     }
 
+    // Set the element's new horizontal position
     if (elmnt.offsetLeft < 0) {
       if (pos1 < 0) {
         elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+      } else {
+        elmnt.style.left = "0px";
       }
     } else if (elmnt.offsetLeft + elmnt.offsetWidth > document.documentElement.clientWidth) {
       if (pos1 > 0) {
         elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+      } else {
+        elmnt.style.left = document.documentElement.clientWidth - elmnt.offsetWidth + "px";
       }
     } else {
       elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
