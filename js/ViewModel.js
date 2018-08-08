@@ -11,12 +11,29 @@
      * @param {object} event The event to be added.
      */
     addEvent(event) {
+        if (this.lat === undefined || this.lng === undefined || this.lat === null || this.lng === null) {
+            this.error.set("Invalid address!: That address could not be found. Try clicking on one of the suggested addresses while typing.");
+            return;
+        }
+        if (!this.positionIsValid()) {
+            console.log(this.lat);
+            console.log(this.lng);
+            this.error.set("Invalid address!: That address is too far away from the University, and won't recieve enough attention. " + 
+                           "Remember, you can still privately host events wherever you want, and your friends can still see them!");
+            return;
+        }
+
         event["lat"] = this.lat;
         event["lng"] = this.lng;
-        this.lat = null;
-        this.lng = null;
+        this.lat = undefined;
+        this.lng = undefined;
 
         this.repository.addEvent(event);
+        this.success.set("Success: Added event");
+    }
+
+    positionIsValid() {
+        return false;
     }
 
     /**
@@ -39,11 +56,12 @@
     constructor(repository) {
         this.data = repository.events; // This is a pass-through observable list from repo
         this.error = new Observable("");
+        this.success = new Observable("");
 
         this.repository = repository;
 
-        this.lat;
-        this.lng;
+        this.lat = undefined;
+        this.lng = undefined;
 
         console.log("ViewModel initialized.");
     }
