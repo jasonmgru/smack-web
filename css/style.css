@@ -29,9 +29,10 @@
     position: absolute;
     right: 3.5vw;
     top: 6vw;
-    box-shadow: 4px 4px 4px 4px gray;
+    box-shadow: 8px 8px 6px 6px rgba(128, 0, 0, 0.125);
     border-radius: 4px;
     background-color: #eee;
+    z-index: 5;
 }
 
 #selector {
@@ -65,13 +66,17 @@
     color: gray;
 }
 
+.list-group-item-action:hover {
+    cursor: pointer;
+}
+
 .navbar-brand {
     width: 100%;
     text-align: center;
 }
 
 .color-primary {
-    background-color: #F6343C;
+    background-color: rgb(246, 52, 60);
 }
 
 .list-group {
