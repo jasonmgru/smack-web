@@ -9,10 +9,11 @@ class Observable {
      * parameter.
      * 
      * @param {(*) => void} observer The observer to be added.
+     * @param {boolean} notifyOnSubscribe Whether or not to notify the subscriber on subscribe.
      */
-    subscribe(observer) {
+    subscribe(observer, notifyOnSubscribe = true) {
         this.observers.push(observer);
-        observer(this.value);
+        if (notifyOnSubscribe) observer(this.value);
     }
 
     /**
@@ -53,19 +54,22 @@ class ObservableList {
      * updated, all observers are called with the new value passed in as a
      * parameter.
      * 
-     * @param {(*, number) => void} observer The observer to be added.
+     * @param {(number, *) => void} observer The observer to be added.
+     * @param {boolean} notifyOnSubscribe Whether or not to notify the subscriber on subscribe.
      */
-    subscribe(observer) {
+    subscribe(observer, notifyOnSubscribe = true) {
         this.observers.push(observer);
-        this.value.forEach( (value, index) => {
-            observer(index, value);
-        });
+        if (notifyOnSubscribe) {
+            this.value.forEach( (value, index) => {
+                observer(index, value);
+            });
+        }
     }
 
     /**
      * Removes a function from the observers list.
      * 
-     * @param {(*, number) => void} observer The observer to be removed.
+     * @param {(number, *) => void} observer The observer to be removed.
      */
     unsubscribe(observer) {
         var index = this.observers.indexOf(observer);
@@ -98,19 +102,22 @@ class ObservableMap {
      * updated, all observers are called with the new value passed in as a
      * parameter.
      * 
-     * @param {(*, number) => void} observer The observer to be added.
+     * @param {(String, *) => void} observer The observer to be added.
+     * @param {boolean} notifyOnSubscribe Whether or not to notify the subscriber on subscribe.
      */
-    subscribe(observer) {
+    subscribe(observer, notifyOnSubscribe = true) {
         this.observers.push(observer);
-        Object.entries(this.value).forEach(([key, value]) => {
-            observer(key, value);
-        });
+        if (notifyOnSubscribe) {
+            Object.entries(this.value).forEach(([key, value]) => {
+                observer(key, value);
+            });
+        }
     }
 
     /**
      * Removes a function from the observers list.
      * 
-     * @param {(*, number) => void} observer The observer to be removed.
+     * @param {(String, *) => void} observer The observer to be removed.
      */
     unsubscribe(observer) {
         var index = this.observers.indexOf(observer);
@@ -118,7 +125,7 @@ class ObservableMap {
     }
 
     /**
-     * Pushes a new value to the map at specified key and notifies observers of the index of the change.
+     * Pushes a new value to the map at specified key and notifies observers of the key of the change.
      * 
      * @param {*} newKey The key to push to.
      * @param {*} newValue The new value for the data.
