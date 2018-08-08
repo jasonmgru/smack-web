@@ -50,7 +50,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form id="add_event_form" onsubmit="viewController.onSubmitButtonPressed(event)">
+                    <form id="add_event_form" onsubmit="viewController.onSubmitButtonPressed(event)" onreset="viewController.onResetButtonPressed(event)">
                         <div class="modal-body form-group">
                             <input id="title" class="input-group form-control" name="add-event-input" type="text" required placeholder="title">
                             <div class="row">
@@ -69,7 +69,13 @@
                                     <input type="text" id="end" name="add-event-input" class="form-control datetimepicker-input" data-target="#end" data-toggle="datetimepicker" required placeholder="end time"/>
                                 </div>
                             </div>
-                            <textarea id="description" class="input-group form-control" type="text" name="add-event-input" placeholder="description" rows="6"></textarea>                      
+                            <textarea id="description" class="input-group form-control" type="text" name="add-event-input" placeholder="description" rows="6"></textarea>                 
+                            <br>    
+                            <div id="add-event-alert-collapse" class="collapse hide" aria-hidden="true">
+                                <div id="add-event-alert" class="alert alert-danger" role="alert">
+                                    <strong id="add-event-alert-title"></strong><span id="add-event-alert-body"></span>
+                                </div>
+                            </div> 
                         </div>
                         <div class="modal-footer">
                             <button type="reset" class="btn btn-secondary">Reset</button>
@@ -105,6 +111,7 @@
 
         <!-- FIREBASE -->        
         <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-auth.js"></script>
         <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-database.js"></script>
 
         <!-- BOOTSTRAP -->

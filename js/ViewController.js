@@ -166,18 +166,16 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
      */
     onSubmitButtonPressed(e) {
         e.preventDefault();
-    
-        if (this.viewModel.lat == null || this.viewModel.lng == null) {
-            alert("Invalid address! Try clicking on one of the suggested addresses when typing.");
-            return;
-        }
 
         var event = {}
         document.getElementsByName("add-event-input").forEach(function(element){
             event[element.id] = element.value;
         });
         this.viewModel.addEvent(event);
-        $("#addEventModal").modal("toggle");
+    }
+
+    onResetButtonPressed(e) {
+        $('#add-event-alert-collapse').collapse("hide");
     }
 
     /**
@@ -190,6 +188,23 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
         this.map;
         this.infowindow;
         this.list = document.getElementById("events-list");
+        this.addEventAlertTitle = document.getElementById("add-event-alert-title");
+        this.addEventAlertBody = document.getElementById("add-event-alert-body");
+
+        this.viewModel.error.subscribe((errorMessage) => {
+            var errorTitle = errorMessage.split(": ")[0];
+            var errorBody = errorMessage.split(": ")[1];
+
+            this.addEventAlertTitle.innerHTML = errorTitle;
+            this.addEventAlertBody.innerHTML = " " + errorBody;
+            $('#add-event-alert-collapse').collapse("show");
+            console.log("notified");
+        });
+
+        this.viewModel.success.subscribe((successMessage) => {
+            $('#add-event-alert-collapse').collapse("hide");
+            $("#addEventModal").modal("hide");
+        });
 
         $('#start').datetimepicker();
         $('#end').datetimepicker({
