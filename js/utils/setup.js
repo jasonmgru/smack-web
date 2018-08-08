@@ -10,6 +10,7 @@
  * 
  * This script also uses the depenency injection pattern, where objects that are dependent on 
  * one another are passed through the constructor, rather than initialized inside the dependent object.
+ * Dependencies are injected below...
  */
 
 var repository = new Repository(); // Model

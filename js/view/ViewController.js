@@ -17,15 +17,17 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
      */
     initGoogle() {
         // Initialize the map
-        this.map = new google.maps.Map(document.getElementById('map'), {
-            center: MINNEAPOLIS.center,
-            zoom: MINNEAPOLIS.zoom
-        });
+        this.mapAdapter = new GoogleMapAdapter(
+            new google.maps.Map(document.getElementById('map'), {
+                center: MINNEAPOLIS.center,
+                zoom: MINNEAPOLIS.zoom
+            }
+        ));
 
         // Add markers to map
         this.viewModel.data.subscribe( (key, event) => {
-            this.addMarkerAndListItem(event);
-            console.log(this.viewModel.data);
+            this.mapAdapter.addMarker(event, (event) => this.openDetailWindow(event));
+            this.addListItem(event);
         });
 
         // Add autocomplete to Add Event Form
@@ -46,34 +48,7 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
      * 
      * @param {object} event 
      */
-    addMarkerAndListItem(event) {
-        // Adds marker
-        var position = {lat: parseFloat(event.lat), lng: parseFloat(event.lng)};
-        var marker = new google.maps.Marker({
-            position: position,
-            map: this.map,
-            title: event.title
-        });
-        var clickable = document.createElement("div");
-        clickable.addEventListener("click", () => this.onDetailClicked(event));
-        clickable.classList.add("infowindow");
-        var header = document.createElement("h6");
-        header.style.fontFamily = "smack-sub";
-        header.style.fontWeight = "bold";
-        header.style.margin = 0;
-        header.innerHTML = event.title;
-        clickable.appendChild(header);
-        clickable.innerHTML += event.address.split(",")[0] + "<br>" + 
-            "<span style='color: gray;'>" +
-                event.host + "<br>" + event.time + 
-            "</span>"
-
-        var infowindow = new google.maps.InfoWindow({
-            content:clickable
-        });
-        marker.addListener("click", () => this.openInfoWindow(infowindow, marker));
-
-        // Adds list item
+    addListItem(event) {
         var title = document.createElement("span");
         var time = document.createElement("span");
         var location = document.createElement("img");
@@ -84,13 +59,13 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
         location.classList.add("location-icon-detail");
         location.src = "img/location.svg";
         location.addEventListener("click", (e) => {
-            this.onMarkerIconClicked(event, infowindow, marker);
+            this.mapAdapter.centerMapOnEvent(event);
             e.stopPropagation();
         });
         var li = document.createElement("li");
         li.addEventListener("click", () => {
-            this.onMarkerIconClicked(event, infowindow, marker);
-            this.onDetailClicked(event);
+            this.mapAdapter.centerMapOnEvent(event);
+            this.openDetailWindow(event);
         });
         li.classList.add("list-group-item");
         li.classList.add("list-group-item-action");
@@ -101,40 +76,13 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
     }
 
     /**
-     * Opens an infowindow to the ViewController's map above a given marker.
-     * If there is another infowindow open, closes it first.
-     * 
-     * @param {google.maps.InfoWindow} infowindow 
-     * @param {google.maps.Marker} marker 
-     */
-    openInfoWindow(infowindow, marker) {
-        if (this.infowindow != null) this.infowindow.close();
-        this.infowindow = infowindow;
-        this.infowindow.open(this.map, marker);
-    }
-
-    /**
-     * Called when a marker on the map is clicked. Opens an infowindow
-     * above the given marker and pans the map to its position.
-     * 
-     * @param {object} event 
-     * @param {google.maps.InfoWindow} infowindow 
-     * @param {google.maps.Marker} marker 
-     */
-    onMarkerIconClicked(event, infowindow, marker) {
-        this.map.panTo({lat: event.lat, lng: event.lng});
-        this.openInfoWindow(infowindow, marker);
-    }
-
-    /**
      * Called when a list item or info window is clicked. Opens a modal
      * to display event details.
      * 
      * @param {object} event 
      */
-    onDetailClicked(event) {
+    openDetailWindow(event) {
         document.getElementById("address-display").innerHTML = event.address;
-        document.getElementById("address-display").addEventListener("click", () => $('#eventDetailModal').modal('hide'));
         document.getElementById("title-display").innerHTML = event.title;
         document.getElementById("host-display").innerHTML = event.host;
         document.getElementById("time-display").innerHTML = event.time;
@@ -150,13 +98,7 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
     onRadioButtonPressed(event) {
         event = event || window.event;
         var target = event.target || event.srcElement;
-        if (target.id == "mpls") {
-            this.map.panTo(MINNEAPOLIS.center);
-            this.map.setZoom(MINNEAPOLIS.zoom);
-        } else if (target.id == "stpl") {
-            this.map.panTo(ST_PAUL.center);
-            this.map.setZoom(ST_PAUL.zoom);
-        }
+        this.mapAdapter.centerMapOnLocation(target.id);
     }
 
     /**
@@ -166,7 +108,6 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
      */
     onSubmitButtonPressed(e) {
         e.preventDefault();
-
         var event = {}
         document.getElementsByName("add-event-input").forEach(function(element){
             event[element.id] = element.value;
@@ -174,19 +115,23 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
         this.viewModel.addEvent(event);
     }
 
+    /**
+     * Called when the user presses reset in add event form.
+     * 
+     * @param {Event} e 
+     */
     onResetButtonPressed(e) {
         $('#add-event-alert-collapse').collapse("hide");
     }
 
     /**
-     * Constructor.
+     * Constructor. This is fairly long, but it is mostly setting up various UI elements.
      * 
      * @param {ViewModel} viewModel the view model that this view observes.
      */
     constructor(viewModel) {
         this.viewModel = viewModel;
-        this.map;
-        this.infowindow;
+        this.mapAdapter;
         this.list = document.getElementById("events-list");
         this.addEventAlertTitle = document.getElementById("add-event-alert-title");
         this.addEventAlertBody = document.getElementById("add-event-alert-body");
@@ -216,6 +161,8 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
         $("#end").on("change.datetimepicker", function (e) {
             $('#start').datetimepicker('maxDate', e.date);
         });
+
+        document.getElementById("address-display").addEventListener("click", () => $('#eventDetailModal').modal('hide'));
         
         console.log("ViewController initialized.");
     }

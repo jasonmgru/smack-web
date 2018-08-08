@@ -29,7 +29,7 @@
         this.lng = undefined;
 
         this.repository.addEvent(event);
-        this.success.set("Success: Added event");
+        this.success.set("Success: Added event '" + event.title + "'");
     }
 
     positionIsValid() {
