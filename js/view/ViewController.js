@@ -20,7 +20,14 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
         this.mapAdapter = new GoogleMapAdapter(
             new google.maps.Map(document.getElementById('map'), {
                 center: MINNEAPOLIS.center,
-                zoom: MINNEAPOLIS.zoom
+                zoom: MINNEAPOLIS.zoom,
+                styles: [{
+                        featureType: "poi",
+                        elementType: "labels",
+                        stylers: [
+                              { visibility: "off" }
+                        ]
+                    }]
             }
         ));
 
@@ -121,6 +128,7 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
      * @param {Event} e 
      */
     onResetButtonPressed(e) {
+        this.viewModel.error.value = ""
         $('#add-event-alert-collapse').collapse("hide");
     }
 
@@ -142,14 +150,9 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
 
             this.addEventAlertTitle.innerHTML = errorTitle;
             this.addEventAlertBody.innerHTML = " " + errorBody;
-            $('#add-event-alert-collapse').collapse("show");
-            console.log("notified");
-        });
 
-        this.viewModel.success.subscribe((successMessage) => {
-            $('#add-event-alert-collapse').collapse("hide");
-            $("#addEventModal").modal("hide");
-        });
+            $("#add-event-alert-collapse").collapse("show");
+        }, false);
 
         $('#start').datetimepicker();
         $('#end').datetimepicker({
