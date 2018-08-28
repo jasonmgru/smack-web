@@ -157,5 +157,10 @@ input {
 }
 
 .form-control, .calendar-btn {
+    margin: 0 0 0 0;
+}
+
+label {
     margin: 10px 0 0 0;
+    font-weight: bold;
 }
