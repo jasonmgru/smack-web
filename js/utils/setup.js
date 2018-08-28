@@ -13,6 +13,6 @@
  * Dependencies are injected below...
  */
 
-var repository = new Repository(); // Model
-var viewModel = new ViewModel(repository); // ViewModel
+var eventRepository = new EventRepository(); // Model
+var viewModel = new ViewModel(eventRepository); // ViewModel
 var viewController = new ViewController(viewModel); // View

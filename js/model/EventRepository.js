@@ -5,7 +5,7 @@
  * the code would work the same. Also, the repo is responsible for caching data and seamlessly
  * integrating the cached data with the data fetched from the database.
  */
-/* SINGLETON */ class Repository {
+/* SINGLETON */ class EventRepository {
     /**
      * Adds an event to the database.
      * 
@@ -64,6 +64,6 @@
             console.log("Client does not have permission to read from database.");
         });
 
-        console.log("Repository initialized.");
+        console.log("EventRepository initialized.");
     }
 }

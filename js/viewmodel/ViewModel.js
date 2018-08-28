@@ -28,12 +28,22 @@
         this.lat = undefined;
         this.lng = undefined;
 
+        // If everything checks out, tell repo to add event
         this.repository.addEvent(event);
         this.success.set("Success: Added event '" + event.title + "'");
     }
 
+    /**
+     * Checks the lat and lng values stored in the viewmodel to see if the 
+     * position is close to the University. Returns true if close, false otherwise
+     * 
+     * @returns true if close to U, false otherwise.
+     */
     positionIsValid() {
-        return false;
+        // Checks if event is close to Minneapolis campus
+        // TODO: check for St. Paul campus too
+        return this.lat > 44.964674 && this.lat < 44.988374 &&
+               this.lng > -93.251052 && this.lng < -93.206549
     }
 
     /**
@@ -51,14 +61,14 @@
     /**
      * Constructor.
      * 
-     * @param {Repository} repository The Repository that connects to the database.
+     * @param {EventRepository} repository The EventRepository that connects to the database.
      */
-    constructor(repository) {
-        this.data = repository.events; // This is a pass-through observable list from repo
+    constructor(eventRepository) {
+        this.data = eventRepository.events; // This is a pass-through observable list from repo
         this.error = new Observable("");
         this.success = new Observable("");
 
-        this.repository = repository;
+        this.eventRepository = eventRepository;
 
         this.lat = undefined;
         this.lng = undefined;
