@@ -61,14 +61,14 @@
     /**
      * Constructor.
      * 
-     * @param {EventRepository} repository The EventRepository that connects to the database.
+     * @param {Repository} repository The Repository that connects to the database.
      */
-    constructor(eventRepository) {
-        this.data = eventRepository.events; // This is a pass-through observable list from repo
+    constructor(repository) {
+        this.data = repository.events; // This is a pass-through observable list from repo
         this.error = new Observable("");
         this.success = new Observable("");
 
-        this.eventRepository = eventRepository;
+        this.repository = repository;
 
         this.lat = undefined;
         this.lng = undefined;
