@@ -26,7 +26,7 @@
         firebase.auth().signInWithEmailAndPassword(email, password).catch((error) => {
             console.log("CODE: " + error.code + ", MSG: " + error.message);
             if (error.code === "auth/user-not-found") {
-                firebase.auth().createUserWithEmailAndPassword(email, password)
+                firebase.auth().createUserWithEmailAndPassword(email, password);
             }
         });
     }

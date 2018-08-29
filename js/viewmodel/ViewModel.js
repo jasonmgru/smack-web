@@ -101,7 +101,7 @@
      */
     constructor(repository) {
         this.repository = repository;
-        this.data = repository.events; 
+        this.events = repository.events; 
         this.user = repository.user;
 
         repository.events.subscribe((key, event) => {

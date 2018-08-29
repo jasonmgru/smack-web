@@ -32,7 +32,7 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
         ));
 
         // Add markers to map
-        this.viewModel.data.subscribe( (key, event) => {
+        this.viewModel.events.subscribe( (key, event) => {
             this.mapAdapter.addMarker(event, (event) => this.openDetailWindow(event));
             this.addListItem(event);
         });
@@ -198,6 +198,7 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
 
         // Specialize content for people logged in/out
         this.viewModel.user.subscribe((user) => {
+            $("#addUserModal").modal("hide");
             if (user) this.performLogin();
             else this.performLogout();
         });
@@ -215,7 +216,9 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
         });
 
         // Hook up address link to close modal when clicked
-        document.getElementById("address-display").addEventListener("click", () => $('#eventDetailModal').modal('hide'));
+        document.getElementById("address-display").addEventListener("click", () => {
+            $('#eventDetailModal').modal('hide');
+        });
         
         console.log("ViewController initialized.");
     }
