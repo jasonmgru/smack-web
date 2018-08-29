@@ -98,6 +98,24 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
     }
 
     /**
+     * Called when the user clicks a Sign In or Sign Up button somewhere on the
+     * page. The UI of the resulting modal depends on whether the user clicked
+     * Sign In or Sign Up.
+     * 
+     * @param {Boolean} signUp Whether the user is signing up or not
+     */
+    onSignInButtonPressed(signUp = false) {
+        if (signUp) {
+            document.getElementById("create-account-message").style.display = "none";
+            document.getElementById("addUserModalLabel").innerHTML = "Sign Up";
+        } else {
+            document.getElementById("create-account-message").style.display = "block";
+            document.getElementById("addUserModalLabel").innerHTML = "Sign In";
+        }
+        $("#addUserModal").modal("show");
+    }
+
+    /**
      * Called when the user presses one of the radio buttons in the bottom right of the screen.
      * 
      * @param {Event} event The button press event.
@@ -158,7 +176,7 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
      * Called when the ViewModel's user object is updated and is not null
      * (i.e. when the user logs in).
      */
-    performLogin() {
+    onLogin() {
         console.log("Logged in " + this.viewModel.user.value.email);
         document.getElementById("profile-sign-in").style.display = "none";
         document.getElementById("profile").style.display = "block";
@@ -169,7 +187,7 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
      * Called when the ViewModel's user object is updated and is null
      * (i.e. when the user logs out).
      */
-    performLogout() {
+    onLogout() {
         console.log("Logged out.");
         document.getElementById("profile-sign-in").style.display = "block";
         document.getElementById("profile").style.display = "none";
@@ -199,8 +217,8 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
         // Specialize content for people logged in/out
         this.viewModel.user.subscribe((user) => {
             $("#addUserModal").modal("hide");
-            if (user) this.performLogin();
-            else this.performLogout();
+            if (user) this.onLogin();
+            else this.onLogout();
         });
 
         // Hook up the datetimepickers to each other

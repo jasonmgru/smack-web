@@ -19,7 +19,7 @@
                 <a class="navbar-brand" id="page-title" href="#">Smack!</a>
             </div>
             <div id="profile-sign-in" class="profile">
-                <a href="#" data-toggle="modal" data-target="#addUserModal" style="color: white; font-size: 1.2em;"><b>Sign In</b></a>
+                <a href="#" onclick="viewController.onSignInButtonPressed()" style="color: white; font-size: 1.2em;"><b>Sign In</b></a>
             </div>
             <div id="profile" class="profile">
                 <img src="img/account.svg" alt="profile icon">
@@ -55,7 +55,7 @@
                 <li>See friends' private events</li>
                 <li>Personalize the content you see</li>
             </ul>
-            <a href="#" data-toggle="modal" data-target="#addUserModal">Signing up</a> is easy and only takes a moment!
+            <a href="#" onclick="viewController.onSignInButtonPressed(true)">Signing up</a> is easy and only takes a moment!
         </div>
 
         <!-- RADIO BUTTONS -->
@@ -155,7 +155,7 @@
                             <input id="emailAddUser" class="input-group form-control" name="add-user-input" type="text" required> 
                             <label for="passwordAddUser">Password</label>
                             <input id="passwordAddUser" class="input-group form-control" name="add-user-input" type="password" required>
-                            <div class="alert alert-light" style="background: none; border: none;"><b>Don't have an account?</b> Just type in your email and desired password above, and we'll create one for you!</div>
+                            <div id="create-account-message" class="alert alert-light" style="background: none; border: none;"><b>Don't have an account?</b> Just type in your email and desired password above, and we'll create one for you!</div>
                             <div id="add-user-alert-collapse" class="collapse" aria-hidden="true">
                                 <div id="add-user-alert" class="alert alert-danger" role="alert">
                                     <strong id="add-user-alert-title"></strong><span id="add-user-alert-body"></span>
