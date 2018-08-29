@@ -114,7 +114,7 @@ class GoogleMapAdapter {
     /**
      * Constructor.
      * 
-     * @param {google.maps.GoogleMap} map 
+     * @param {google.maps.Map} map 
      */
     constructor(map) {
         this.map = map;
