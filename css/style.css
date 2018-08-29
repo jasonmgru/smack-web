@@ -38,10 +38,6 @@
     bottom: 2vw;
 }
 
-.hovering:hover {
-    cursor: move;
-}
-
 #events-header:hover {
     text-decoration: underline;
     cursor: pointer;
@@ -54,11 +50,15 @@
     align-self: center;
 }
 
-.hovering {
+.draggable {
     top: 84px;
     position: absolute;
     box-shadow: 8px 8px 6px 6px rgba(128, 0, 0, 0.125) !important;
     z-index: 5;
+}
+
+.draggable:hover {
+    cursor: move;
 }
 
 .list-header {
