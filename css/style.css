@@ -14,10 +14,6 @@
     align-content: center;
 }
 
-#nav {
-    box-shadow: 0px 0px 4px 4px gray;
-}
-
 #map {
     height: 92%;
     width: 100%;
@@ -26,13 +22,14 @@
 
 #list {
     width: 20vw;
-    position: absolute;
-    right: 3.5vw;
-    top: 6vw;
-    box-shadow: 8px 8px 6px 6px rgba(128, 0, 0, 0.125);
+    right: 4.5vw;
     border-radius: 4px;
     background-color: #eee;
-    z-index: 5;
+}
+
+#please-log-in {
+    left: 13vw;
+    width: 35vw;
 }
 
 #selector {
@@ -41,7 +38,7 @@
     bottom: 2vw;
 }
 
-#listheader:hover {
+.hovering:hover {
     cursor: move;
 }
 
@@ -55,6 +52,13 @@
     cursor: pointer;
     text-align: right;
     align-self: center;
+}
+
+.hovering {
+    top: 84px;
+    position: absolute;
+    box-shadow: 8px 8px 6px 6px rgba(128, 0, 0, 0.125) !important;
+    z-index: 5;
 }
 
 .list-header {
@@ -158,6 +162,12 @@ input {
 
 .form-control, .calendar-btn {
     margin: 0 0 0 0;
+}
+
+.profile {
+    position: absolute; 
+    right: 20px;
+    text-align: center;
 }
 
 label {

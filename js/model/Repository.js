@@ -16,26 +16,35 @@
     }
 
     /**
-     * Returns a "pretty" time field for the incoming event objects. The first
-     * item is the date, then the time range. If the start and end of the 
-     * event are on the same day, it removes the date from the second 
-     * half of the time range.
+     * Adds a user to Firebase Authentication. I'm pretty sure Google handles
+     * password encryption, so I don't.
      * 
-     * @param {String} start The start datetime
-     * @param {String} end The end datetime
-     * 
-     * @returns {String} The newly formatted time range.
+     * @param {String} email 
+     * @param {String} password 
      */
-    getPrettyTimeRange(start, end) {
-        var startParts = start.split(" ");
-        var endParts = end.split(" ");
+    signInWithEmailAndPassword(email, password) {
+        firebase.auth().signInWithEmailAndPassword(email, password).catch((error) => {
+            console.log("CODE: " + error.code + ", MSG: " + error.message);
+            if (error.code === "auth/user-not-found") {
+                firebase.auth().createUserWithEmailAndPassword(email, password)
+            }
+        });
+    }
 
-        if (startParts[0] === endParts[0]) {
-            return (startParts[0] + " " + startParts[1] + startParts[2] + 
-                " - " + endParts[1] + endParts[2]).toLowerCase();
+    /**
+     * Callback, called when the user's auth state changes 
+     * (i.e. user is logged in/out).
+     * 
+     * @param {firebase.User} user 
+     */
+    onAuthStateChanged(user) {
+        if (user) {
+            this.user.set({
+                email: user.email
+            });
+        } else {
+            this.user.set(null);
         }
-        return (startParts[0] + " " + startParts[1] + startParts[2] + 
-        " - " + endParts[0] + " " + endParts[1] + endParts[2]).toLowerCase();
     }
 
     /**
@@ -53,16 +62,20 @@
         firebase.initializeApp(config);
 
         this.events = new ObservableMap();
+        this.user = new Observable(firebase.auth().currentUser);
+        this.addUserError = new Observable("");
+
         this.databaseReference = firebase.database().ref("events");
         this.databaseReference.on("child_added", data => {
             var event = data.val();
             event.key = data.key;
-            event.time = this.getPrettyTimeRange(event.start, event.end);
             this.events.add(event.key, event);
             console.log(event);
         }, error => {
             console.log("Client does not have permission to read from database.");
         });
+
+        firebase.auth().onAuthStateChanged((user) => this.onAuthStateChanged(user));
 
         console.log("Repository initialized.");
     }

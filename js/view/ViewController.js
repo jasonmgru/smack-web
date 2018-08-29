@@ -79,7 +79,7 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
         li.appendChild(title);
         li.appendChild(time);
         li.appendChild(location);
-        this.list.appendChild(li);
+        document.getElementById("events-list").appendChild(li);
     }
 
     /**
@@ -113,7 +113,7 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
      * 
      * @param {Event} e The event triggering this function.
      */
-    onSubmitButtonPressed(e) {
+    onAddEventSubmitButtonPressed(e) {
         e.preventDefault();
         var event = {}
         document.getElementsByName("add-event-input").forEach(function(element){
@@ -127,9 +127,52 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
      * 
      * @param {Event} e 
      */
-    onResetButtonPressed(e) {
-        this.viewModel.error.value = ""
+    onAddEventResetButtonPressed(e) {
+        this.viewModel.addEventError.value = ""
         $('#add-event-alert-collapse').collapse("hide");
+    }
+
+    /**
+     * Called when the user presses submit in add user form.
+     * 
+     * @param {Event} e 
+     */
+    onAddUserSubmitButtonPressed(e) {
+        e.preventDefault();
+        var email = document.getElementById("emailAddUser").value;
+        var password = document.getElementById("passwordAddUser").value;
+        this.viewModel.signInWithEmailAndPassword(email, password);
+    }
+
+    /**
+     * Called when the user presses reset in add user form.
+     * 
+     * @param {Event} e 
+     */
+    onAddUserResetButtonPressed(e) {
+        this.viewModel.addUserError.value = ""
+        $('#add-user-alert-collapse').collapse("hide");
+    }
+
+    /**
+     * Called when the ViewModel's user object is updated and is not null
+     * (i.e. when the user logs in).
+     */
+    performLogin() {
+        console.log("Logged in " + this.viewModel.user.value.email);
+        document.getElementById("profile-sign-in").style.display = "none";
+        document.getElementById("profile").style.display = "block";
+        document.getElementById("please-log-in").style.display = "none";
+    }
+
+    /**
+     * Called when the ViewModel's user object is updated and is null
+     * (i.e. when the user logs out).
+     */
+    performLogout() {
+        console.log("Logged out.");
+        document.getElementById("profile-sign-in").style.display = "block";
+        document.getElementById("profile").style.display = "none";
     }
 
     /**
@@ -140,20 +183,26 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
     constructor(viewModel) {
         this.viewModel = viewModel;
         this.mapAdapter;
-        this.list = document.getElementById("events-list");
-        this.addEventAlertTitle = document.getElementById("add-event-alert-title");
-        this.addEventAlertBody = document.getElementById("add-event-alert-body");
 
-        this.viewModel.error.subscribe((errorMessage) => {
-            var errorTitle = errorMessage.split(": ")[0];
-            var errorBody = errorMessage.split(": ")[1];
-
-            this.addEventAlertTitle.innerHTML = errorTitle;
-            this.addEventAlertBody.innerHTML = " " + errorBody;
-
+        // Hook up error alerts to error in viewModel
+        this.viewModel.addEventError.subscribe((errorMessage) => {
+            document.getElementById("add-event-alert-title").innerHTML = errorMessage.split(": ")[0];
+            document.getElementById("add-event-alert-body").innerHTML = " " + errorMessage.split(": ")[1];
             $("#add-event-alert-collapse").collapse("show");
         }, false);
+        this.viewModel.addUserError.subscribe((errorMessage) => {
+            document.getElementById("add-user-alert-title").innerHTML = errorMessage.split(": ")[0];
+            document.getElementById("add-user-alert-body").innerHTML = " " + errorMessage.split(": ")[1];
+            $("#add-user-alert-collapse").collapse("show");
+        }, false);
 
+        // Specialize content for people logged in/out
+        this.viewModel.user.subscribe((user) => {
+            if (user) this.performLogin();
+            else this.performLogout();
+        });
+
+        // Hook up the datetimepickers to each other
         $('#start').datetimepicker();
         $('#end').datetimepicker({
             useCurrent: false
@@ -165,6 +214,7 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
             $('#start').datetimepicker('maxDate', e.date);
         });
 
+        // Hook up address link to close modal when clicked
         document.getElementById("address-display").addEventListener("click", () => $('#eventDetailModal').modal('hide'));
         
         console.log("ViewController initialized.");

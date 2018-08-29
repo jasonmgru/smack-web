@@ -18,13 +18,19 @@
             <div style="margin: auto;">
                 <a class="navbar-brand" id="page-title" href="#">Smack!</a>
             </div>
+            <div id="profile-sign-in" class="profile">
+                <a href="#" data-toggle="modal" data-target="#addUserModal" style="color: white; font-size: 1.2em;"><b>Sign In</b></a>
+            </div>
+            <div id="profile" class="profile">
+                <img src="img/account.svg" alt="profile icon">
+            </div>
         </nav>
 
         <!-- MAP -->
         <div id="map"></div>
 
         <!-- EVENTS LIST -->
-        <div id="list">
+        <div id="list" class="hovering">
             <li id="listheader" class="list-group-item list-header">
                 <span id="events-header" data-toggle="collapse" data-target=".collapse-target-1">Events</span>
                 <div class="ml-auto"><img id="add_button" src="img/add_button.svg" data-toggle="modal" data-target="#addEventModal"></div>
@@ -32,6 +38,24 @@
             <div class="collapse-target-1 collapse show">
                 <ul id="events-list" class="list-group" style="padding:0; margin:0;" ></ul>
             </div>
+        </div>
+
+        <!-- LOG IN MESSAGE -->
+        <div id="please-log-in" class="alert alert-danger alert-dismissable hovering" role="alert">
+            <b>Uh oh, you're not logged in!</b>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <br>
+            Without an account, you can still see some public events.
+            However, with an account, you can:
+            <ul>
+                <li>Network with your friends</li>
+                <li>Create private events</li>
+                <li>See friends' private events</li>
+                <li>Personalize the content you see</li>
+            </ul>
+            <a href="#" data-toggle="modal" data-target="#addUserModal">Signing up</a> is easy and only takes a moment!
         </div>
 
         <!-- RADIO BUTTONS -->
@@ -53,29 +77,29 @@
                     <form id="add_event_form" onsubmit="viewController.onSubmitButtonPressed(event)" onreset="viewController.onResetButtonPressed(event)">
                         <div class="modal-body form-group">
                             <label for="title">Title</label>
-                            <input id="title" class="input-group form-control" name="add-event-input" type="text" required placeholder="...">
+                            <input id="title" class="input-group form-control" name="add-event-input" type="text" required placeholder="enter an event title">
                             <div class="row">
                                 <div class="col">   
                                     <label for="host">Host</label>
-                                    <input id="host" class="input-group form-control" type="text" name="add-event-input" required placeholder="...">
+                                    <input id="host" class="input-group form-control" type="text" name="add-event-input" required placeholder="enter the host name">
                                 </div>
                                 <div class="col">
                                     <label for="address">Address</label>
-                                    <input id="address" class="input-group form-control" type="text" name="add-event-input" required placeholder="...">  
+                                    <input id="address" class="input-group form-control" type="text" name="add-event-input" required placeholder="enter a location">  
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-4">
                                     <label for="start">Start Time</label>
-                                    <input type="text" id="start" name="add-event-input" class="form-control datetimepicker-input" data-target="#start" data-toggle="datetimepicker" required placeholder="..."/>
+                                    <input type="text" id="start" name="add-event-input" class="form-control datetimepicker-input" data-target="#start" data-toggle="datetimepicker" required placeholder="choose start time"/>
                                 </div>
                                 <div class="col-4">
                                     <label for="end">End Time</label>
-                                    <input type="text" id="end" name="add-event-input" class="form-control datetimepicker-input" data-target="#end" data-toggle="datetimepicker" required placeholder="..."/>
+                                    <input type="text" id="end" name="add-event-input" class="form-control datetimepicker-input" data-target="#end" data-toggle="datetimepicker" required placeholder="choose end time"/>
                                 </div>
                             </div>
                             <label for="description">Description</label>
-                            <textarea id="description" class="input-group form-control" type="text" name="add-event-input" placeholder="optional..." rows="6"></textarea>                 
+                            <textarea id="description" class="input-group form-control" type="text" name="add-event-input" placeholder="enter a description of the event (optional)" rows="6"></textarea>                 
                             <br>    
                             <div id="add-event-alert-collapse" class="collapse" aria-hidden="true">
                                 <div id="add-event-alert" class="alert alert-danger" role="alert">
@@ -111,6 +135,38 @@
                         </span><br>
                         <p id="description-display" name="event-detail-display"></p>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SIGN IN MODAL -->
+        <div class="modal" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="addUserModal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color: #eee;">
+                        <h5 class="modal-title list-header" style="color: gray;" id="addUserModalLabel">Sign In</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form id="add_user_form" onsubmit="viewController.onAddUserSubmitButtonPressed(event)" onreset="viewController.onAddUserResetButtonPressed(event)">
+                        <div class="modal-body form-group">
+                            <label for="emailAddUser">Email</label>
+                            <input id="emailAddUser" class="input-group form-control" name="add-user-input" type="text" required> 
+                            <label for="passwordAddUser">Password</label>
+                            <input id="passwordAddUser" class="input-group form-control" name="add-user-input" type="password" required>
+                            <div class="alert alert-light" style="background: none; border: none;"><b>Don't have an account?</b> Just type in your email and desired password above, and we'll create one for you!</div>
+                            <div id="add-user-alert-collapse" class="collapse" aria-hidden="true">
+                                <div id="add-user-alert" class="alert alert-danger" role="alert">
+                                    <strong id="add-user-alert-title"></strong><span id="add-user-alert-body"></span>
+                                </div>
+                            </div> 
+                        </div>
+                        <div class="modal-footer">
+                            <button type="reset" class="btn btn-secondary">Reset</button>
+                            <button type="submit" class="btn btn-submit">Sign In</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
