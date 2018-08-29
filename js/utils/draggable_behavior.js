@@ -1,7 +1,15 @@
+// Queue of draggables
+var draggables = Array.from(document.getElementsByClassName("draggable"));
 
-//Make the DIV element draggagle:
-dragElement(document.getElementById("list"));
-dragElement(document.getElementById("please-log-in"));
+// Make each draggable draggable... haha
+draggables.forEach((draggable) => {
+  dragElement(draggable);
+});
+
+function popElementById(id) {
+  var index = draggables.findIndex((element) => element.id === id);
+  return draggables.splice(index, 1);
+}
 
 function dragElement(elmnt) {
   var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
@@ -22,6 +30,11 @@ function dragElement(elmnt) {
     document.onmouseup = closeDragElement;
     // call a function whenever the cursor moves:
     document.onmousemove = elementDrag;
+    popElementById(elmnt.id);
+    draggables.push(elmnt);
+    draggables.forEach((element, index) => {
+      element.style.zIndex = (index + 5).toString();
+    });
   }
 
   function elementDrag(e) {
