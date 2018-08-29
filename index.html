@@ -30,10 +30,10 @@
         <div id="map"></div>
 
         <!-- EVENTS LIST -->
-        <div id="list" class="hovering">
+        <div id="list" class="draggable">
             <li id="listheader" class="list-group-item list-header">
                 <span id="events-header" data-toggle="collapse" data-target=".collapse-target-1">Events</span>
-                <div class="ml-auto"><img id="add_button" src="img/add_button.svg" data-toggle="modal" data-target="#addEventModal"></div>
+                <div class="ml-auto"><img id="add_button" src="img/add_button.svg" data-toggle="modal" data-target="#addEventModal" ></div>
             </li>
             <div class="collapse-target-1 collapse show">
                 <ul id="events-list" class="list-group" style="padding:0; margin:0;" ></ul>
@@ -41,7 +41,7 @@
         </div>
 
         <!-- LOG IN MESSAGE -->
-        <div id="please-log-in" class="alert alert-danger alert-dismissable hovering" role="alert">
+        <div id="please-log-in" class="alert alert-danger alert-dismissable draggable" role="alert">
             <b>Uh oh, you're not logged in!</b>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -74,7 +74,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form id="add_event_form" onsubmit="viewController.onSubmitButtonPressed(event)" onreset="viewController.onResetButtonPressed(event)">
+                    <form id="add_event_form" onsubmit="viewController.onAddEventSubmitButtonPressed(event)" onreset="viewController.onAddEventResetButtonPressed(event)">
                         <div class="modal-body form-group">
                             <label for="title">Title</label>
                             <input id="title" class="input-group form-control" name="add-event-input" type="text" required placeholder="enter an event title">
