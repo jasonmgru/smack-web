@@ -1,17 +1,19 @@
-// Queue of draggables
-var draggables = Array.from(document.getElementsByClassName("draggable"));
+/* SINGLETON */ class DraggableMediator {
 
-// Make each draggable draggable... haha
-draggables.forEach((draggable) => {
-  dragElement(draggable);
-});
+    popElementById(id) {
+        var index = this.draggables.findIndex((element) => element.id === id);
+        return this.draggables.splice(index, 1);
+    }
 
-function popElementById(id) {
-  var index = draggables.findIndex((element) => element.id === id);
-  return draggables.splice(index, 1);
-}
+    moveElementToTop(element) {
+        this.popElementById(element.id);
+        this.draggables.push(element);
+        this.draggables.forEach((element, index) => {
+            element.style.zIndex = (index + 5).toString();
+        });
+    }
 
-function dragElement(elmnt) {
+dragElement(elmnt) {
   var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
   if (document.getElementById(elmnt.id + "header")) {
     /* if present, the header is where you move the DIV from:*/
@@ -93,3 +95,15 @@ function dragElement(elmnt) {
     }
   }
 } 
+
+    constructor() {
+        Array.from(document.getElementsByClassName("draggable")).forEach((element) => {
+            this.dragElement(element);
+        });
+        this.element = null;
+        this.mouseX;
+        this.mouseY;
+        this.dx;
+        this.dy;
+    }
+}

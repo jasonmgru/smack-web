@@ -97,6 +97,29 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
         $('#eventDetailModal').modal('show');
     }
 
+    dock(id) {
+        var target = document.getElementById(id);
+        if (!target.classList.contains("draggable") && target.classList.contains("docked")) {
+            this.undock(id);
+            return;
+        }
+        var mapContainer = document.getElementById("map-container");
+
+        mapContainer.style.width = "80%";
+        target.classList.remove("draggable");
+        target.classList.add("docked");
+    }
+
+    undock(id) {
+        console.log("undocked");
+        var target = document.getElementById(id);
+        var mapContainer = document.getElementById("map-container");
+
+        mapContainer.style.width = "100%";
+        target.classList.remove("docked");
+        target.classList.add("draggable");
+    }
+
     /**
      * Called when the user clicks a Sign In or Sign Up button somewhere on the
      * page. The UI of the resulting modal depends on whether the user clicked
@@ -172,6 +195,10 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
         $('#add-user-alert-collapse').collapse("hide");
     }
 
+    example(e) {
+        console.log(e);
+    }
+
     /**
      * Called when the ViewModel's user object is updated and is not null
      * (i.e. when the user logs in).
@@ -200,6 +227,7 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
      */
     constructor(viewModel) {
         this.viewModel = viewModel;
+        this.draggableMediator = new DraggableMediator();
         this.mapAdapter;
 
         // Hook up error alerts to error in viewModel
@@ -231,11 +259,6 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
         });
         $("#end").on("change.datetimepicker", function (e) {
             $('#start').datetimepicker('maxDate', e.date);
-        });
-
-        // Hook up address link to close modal when clicked
-        document.getElementById("address-display").addEventListener("click", () => {
-            $('#eventDetailModal').modal('hide');
         });
         
         console.log("ViewController initialized.");

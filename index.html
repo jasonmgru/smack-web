@@ -27,7 +27,9 @@
         </nav>
 
         <!-- MAP -->
-        <div id="map"></div>
+        <div id="map-container">
+            <div id="map"></div>
+        </div>
 
         <!-- EVENTS LIST -->
         <div id="list" class="draggable">
@@ -36,7 +38,7 @@
                 <div class="ml-auto"><img id="add_button" src="img/add_button.svg" data-toggle="modal" data-target="#addEventModal" ></div>
             </li>
             <div class="collapse-target-1 collapse show">
-                <ul id="events-list" class="list-group" style="padding:0; margin:0;" ></ul>
+                <ul id="events-list" class="list-group" style="padding:0; margin:0;" onclick="viewController.example(event)"></ul>
             </div>
         </div>
 
@@ -65,7 +67,7 @@
         </div>
       
         <!-- ADD EVENT MODAL -->
-        <div class="modal" id="addEventModal" tabindex="-1" role="dialog" aria-labelledby="addEventModal" aria-hidden="true">
+        <div class="modal fade" id="addEventModal" tabindex="-1" role="dialog" aria-labelledby="addEventModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header" style="background-color: #eee;">
@@ -117,7 +119,7 @@
         </div>
 
         <!-- EVENT DETAIL MODAL -->
-        <div class="modal" id="eventDetailModal" tabindex="-1" role="dialog" aria-labelledby="eventDetailModal" aria-hidden="true">
+        <div class="modal fade" id="eventDetailModal" tabindex="-1" role="dialog" aria-labelledby="eventDetailModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header" style="background-color: #eee;">
@@ -128,7 +130,7 @@
                     </div>
                     <div class="modal-body">
                         <h6 id="title-display" name="event-detail-display" style="font-family: smack-sub; font-weight: bold;"></h6>
-                        <a href="#" id="address-display"></a><br>
+                        <a href="#" id="address-display" onclick="$('#eventDetailModal').modal('hide')"></a><br>
                         <span style="color: gray;">
                             <span id="host-display"></span><br>
                             <span id="time-display"></span><br>
@@ -140,7 +142,7 @@
         </div>
 
         <!-- SIGN IN MODAL -->
-        <div class="modal" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="addUserModal" aria-hidden="true">
+        <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="addUserModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header" style="background-color: #eee;">
@@ -193,9 +195,9 @@
         <script src="js/model/Repository.js"></script>
         <script src="js/viewmodel/ViewModel.js"></script>
         <script src="js/view/adapters/GoogleMapAdapter.js"></script>
+        <script src="js/view/mediators/DraggableMediator.js"></script>
         <script src="js/view/ViewController.js"></script>
         <script src="js/utils/setup.js"></script>
-        <script src="js/utils/draggable_behavior.js"></script>
 
     </body>
 </html>
