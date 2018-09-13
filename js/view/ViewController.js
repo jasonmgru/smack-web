@@ -21,6 +21,9 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
             new google.maps.Map(document.getElementById('map'), {
                 center: MINNEAPOLIS.center,
                 zoom: MINNEAPOLIS.zoom,
+                mapTypeControl: false,
+                streetViewControl: false,
+                fullscreenControl: false,
                 styles: [{
                         featureType: "poi",
                         elementType: "labels",
@@ -57,12 +60,9 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
      */
     addListItem(event) {
         var title = document.createElement("span");
-        var time = document.createElement("span");
         var location = document.createElement("img");
         title.style.fontFamily = "smack-sub";
         title.innerHTML = event.title;
-        time.classList.add("time-list-detail");
-        time.innerHTML = event.time;
         location.classList.add("location-icon-detail");
         location.src = "img/location.svg";
         location.addEventListener("click", (e) => {
@@ -77,7 +77,6 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
         li.classList.add("list-group-item");
         li.classList.add("list-group-item-action");
         li.appendChild(title);
-        li.appendChild(time);
         li.appendChild(location);
         document.getElementById("events-list").appendChild(li);
     }
@@ -95,47 +94,6 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
         document.getElementById("time-display").innerHTML = event.time;
         document.getElementById("description-display").innerHTML = event.description;
         $('#eventDetailModal').modal('show');
-    }
-
-    dock(id) {
-        var target = document.getElementById(id);
-        if (!target.classList.contains("draggable") && target.classList.contains("docked")) {
-            this.undock(id);
-            return;
-        }
-        var mapContainer = document.getElementById("map-container");
-
-        mapContainer.style.width = "80%";
-        target.classList.remove("draggable");
-        target.classList.add("docked");
-    }
-
-    undock(id) {
-        console.log("undocked");
-        var target = document.getElementById(id);
-        var mapContainer = document.getElementById("map-container");
-
-        mapContainer.style.width = "100%";
-        target.classList.remove("docked");
-        target.classList.add("draggable");
-    }
-
-    /**
-     * Called when the user clicks a Sign In or Sign Up button somewhere on the
-     * page. The UI of the resulting modal depends on whether the user clicked
-     * Sign In or Sign Up.
-     * 
-     * @param {Boolean} signUp Whether the user is signing up or not
-     */
-    onSignInButtonPressed(signUp = false) {
-        if (signUp) {
-            document.getElementById("create-account-message").style.display = "none";
-            document.getElementById("addUserModalLabel").innerHTML = "Sign Up";
-        } else {
-            document.getElementById("create-account-message").style.display = "block";
-            document.getElementById("addUserModalLabel").innerHTML = "Sign In";
-        }
-        $("#addUserModal").modal("show");
     }
 
     /**
@@ -195,31 +153,6 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
         $('#add-user-alert-collapse').collapse("hide");
     }
 
-    example(e) {
-        console.log(e);
-    }
-
-    /**
-     * Called when the ViewModel's user object is updated and is not null
-     * (i.e. when the user logs in).
-     */
-    onLogin() {
-        console.log("Logged in " + this.viewModel.user.value.email);
-        document.getElementById("profile-sign-in").style.display = "none";
-        document.getElementById("profile").style.display = "block";
-        document.getElementById("please-log-in").style.display = "none";
-    }
-
-    /**
-     * Called when the ViewModel's user object is updated and is null
-     * (i.e. when the user logs out).
-     */
-    onLogout() {
-        console.log("Logged out.");
-        document.getElementById("profile-sign-in").style.display = "block";
-        document.getElementById("profile").style.display = "none";
-    }
-
     /**
      * Constructor. This is fairly long, but it is mostly setting up various UI elements.
      * 
@@ -227,7 +160,6 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
      */
     constructor(viewModel) {
         this.viewModel = viewModel;
-        this.draggableMediator = new DraggableMediator();
         this.mapAdapter;
 
         // Hook up error alerts to error in viewModel
@@ -241,13 +173,6 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
             document.getElementById("add-user-alert-body").innerHTML = " " + errorMessage.split(": ")[1];
             $("#add-user-alert-collapse").collapse("show");
         }, false);
-
-        // Specialize content for people logged in/out
-        this.viewModel.user.subscribe((user) => {
-            $("#addUserModal").modal("hide");
-            if (user) this.onLogin();
-            else this.onLogout();
-        });
 
         // Hook up the datetimepickers to each other
         $('#start').datetimepicker();
