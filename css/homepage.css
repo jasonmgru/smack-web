@@ -1,0 +1,21 @@
+.main-title {
+    margin: auto;
+    padding-top: 2vh;
+    text-align: center;
+    font-size: 6em;
+    color: white;
+    font-family: smack;
+}
+
+.sign-in-form {
+    display: block;
+}
+
+.why-join-item {
+    background: none;
+    color: white;
+}
+
+.main-text {
+    color: #808080
+}
