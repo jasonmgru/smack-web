@@ -132,25 +132,20 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
     }
 
     /**
-     * Called when the user presses submit in add user form.
+     * Called when the user presses either the events label or the more-less
+     * button next to it.
      * 
-     * @param {Event} e 
+     * @param {Event} e
      */
-    onAddUserSubmitButtonPressed(e) {
-        e.preventDefault();
-        var email = document.getElementById("emailAddUser").value;
-        var password = document.getElementById("passwordAddUser").value;
-        this.viewModel.signInWithEmailAndPassword(email, password);
-    }
+    onEventsHeaderPressed(e) {
+        var button = document.getElementById("more-less");
+        if (button.classList.contains("more-less-transition")) {
+            button.classList.remove("more-less-transition");
+        } else {
+            button.classList.add("more-less-transition");
+        }
 
-    /**
-     * Called when the user presses reset in add user form.
-     * 
-     * @param {Event} e 
-     */
-    onAddUserResetButtonPressed(e) {
-        this.viewModel.addUserError.value = ""
-        $('#add-user-alert-collapse').collapse("hide");
+        $("#events-list-collapse").collapse("toggle");
     }
 
     /**
@@ -167,11 +162,6 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
             document.getElementById("add-event-alert-title").innerHTML = errorMessage.split(": ")[0];
             document.getElementById("add-event-alert-body").innerHTML = " " + errorMessage.split(": ")[1];
             $("#add-event-alert-collapse").collapse("show");
-        }, false);
-        this.viewModel.addUserError.subscribe((errorMessage) => {
-            document.getElementById("add-user-alert-title").innerHTML = errorMessage.split(": ")[0];
-            document.getElementById("add-user-alert-body").innerHTML = " " + errorMessage.split(": ")[1];
-            $("#add-user-alert-collapse").collapse("show");
         }, false);
 
         // Hook up the datetimepickers to each other

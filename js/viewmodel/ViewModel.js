@@ -34,16 +34,6 @@
     }
 
     /**
-     * Tells repository to create a User with an email and password.
-     * 
-     * @param {String} email 
-     * @param {String} password 
-     */
-    signInWithEmailAndPassword(email, password) {
-        this.repository.signInWithEmailAndPassword(email, password);
-    }
-
-    /**
      * Checks the lat and lng values stored in the viewmodel to see if the 
      * position is close to the University. Returns true if close, false otherwise
      * 
@@ -102,14 +92,12 @@
     constructor(repository) {
         this.repository = repository;
         this.events = repository.events; 
-        this.user = repository.user;
 
         repository.events.subscribe((key, event) => {
             event.time = this.getPrettyTimeRange(event.start, event.end);
         });
 
         this.addEventError = new Observable("");
-        this.addUserError = repository.addUserError;
 
         this.lat = null;
         this.lng = null;
