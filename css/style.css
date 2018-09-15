@@ -41,7 +41,7 @@
     width: 20vw; 
     position: absolute; 
     top: 8vh; 
-    box-shadow: 0 0 16px rgba(0, 0, 0, 0.25); 
+    box-shadow: 0 0 24px rgba(0, 0, 0, 0.25); 
     border-radius: 4px;
 }
 
