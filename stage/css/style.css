@@ -8,15 +8,40 @@
     src: url(../font/backissues.otf) format("opentype");
 }
 
+.main-title {
+    margin: auto;
+    padding-top: 2vh;
+    text-align: center;
+    font-size: 6em;
+    color: white;
+    font-family: smack;
+}
+
+.sign-in-form {
+    display: block;
+}
+
+.why-join-item {
+    background: none;
+    color: white;
+}
+
+.main-text {
+    color: #808080
+}
+
+#login-page-container {
+    transition-duration: 500ms;
+}
+
 #page-title {
     font-family: smack;
     font-size: 2em;
-    align-content: center;
 }
 
 #nav {
     z-index: 10;
-    background-image: linear-gradient(to top right, #f6343c, #f65e34);
+    background-image: linear-gradient(to top right, #f81f26, #ff6e46);
 }
 
 #map {
@@ -39,8 +64,8 @@
 
 #events-list-collapse {
     width: 20vw; 
-    position: absolute; 
-    top: 8vh; 
+    position: absolute;
+    top: 60px;
     box-shadow: 0 0 24px rgba(0, 0, 0, 0.25); 
     border-radius: 4px;
 }
