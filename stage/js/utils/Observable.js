@@ -105,8 +105,9 @@ class ObservableMap {
      * @param {(String, *) => void} observer The observer to be added.
      * @param {boolean} notifyOnSubscribe Whether or not to notify the subscriber on subscribe.
      */
-    subscribe(observer, notifyOnSubscribe = true) {
+    subscribe(observer, onRemoveObserver = null, notifyOnSubscribe = true) {
         this.observers.push(observer);
+        if (onRemoveObserver !== null) this.onRemoveObservers.push(onRemoveObserver);
         if (notifyOnSubscribe) {
             Object.entries(this.value).forEach(([key, value]) => {
                 observer(key, value);
@@ -135,8 +136,19 @@ class ObservableMap {
         this.observers.forEach((observer) => observer(newKey, newValue));
     }
 
+    /**
+     * When an item is removed from the map, the "on remove" observers are
+     * called to handle an item being removed.
+     * 
+     * @param {String} key 
+     */
+    remove(key) {
+        this.onRemoveObservers.forEach(onRemoveObserver => onRemoveObserver(key, this.value[key]));
+    }
+
     constructor() {
         this.value = {};
         this.observers = [];
+        this.onRemoveObservers = [];
     }
 }
