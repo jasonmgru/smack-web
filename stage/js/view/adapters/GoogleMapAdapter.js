@@ -111,6 +111,12 @@ class GoogleMapAdapter {
         this.markers[event.key] = {marker: marker, infowindow: infowindow};
     }
 
+    removeMarker(event) {
+        var marker = this.markers[event.key].marker;
+        delete this.markers[event.key];
+        marker.setMap(null);
+    };
+
     /**
      * Constructor.
      * 

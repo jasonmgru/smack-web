@@ -38,6 +38,9 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
         this.viewModel.events.subscribe( (key, event) => {
             this.mapAdapter.addMarker(event, (event) => this.openDetailWindow(event));
             this.addListItem(event);
+        }, (key, event) => {
+            this.mapAdapter.removeMarker(event);
+            this.removeListItem(event);
         });
 
         // Add autocomplete to Add Event Form
@@ -53,10 +56,10 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
     }
 
     /**
-     * Adds a marker to the map and a list item to the list for a given event.
+     * Adds a list item to the list for a given event.
      * This function is pretty long, but it's mostly UI formatting.
      * 
-     * @param {object} event 
+     * @param {object} event The event to be added.
      */
     addListItem(event) {
         var title = document.createElement("span");
@@ -76,9 +79,20 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
         });
         li.classList.add("list-group-item");
         li.classList.add("list-group-item-action");
+        li.id = event.key+"li";
         li.appendChild(title);
         li.appendChild(location);
         document.getElementById("events-list").appendChild(li);
+    }
+
+    /**
+     * Removes an event from the events list.
+     * 
+     * @param {object} event The event to be removed.
+     */
+    removeListItem(event) {
+        var li = document.getElementById(event.key+"li");
+        li.parentNode.removeChild(li);
     }
 
     /**
@@ -149,6 +163,25 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
     }
 
     /**
+     * Called when the authorization state changes. If the user is logged in, 
+     * displays the application. If the user is not logged in, displays the 
+     * login page. 
+     * 
+     * @param {object} user 
+     */
+    onAuthStateChanged(user) {
+        if (user) {
+            document.getElementById("main-page-container").hidden = false;
+            document.getElementById("login-page-container").style.opacity = "0";
+            document.getElementById("login-page-container").style.zIndex = "-1";
+        } else {
+            document.getElementById("login-page-container").style.opacity = "1";
+            document.getElementById("login-page-container").style.zIndex = "100";
+            document.getElementById("main-page-container").hidden = true;
+        }
+    }
+
+    /**
      * Constructor. This is fairly long, but it is mostly setting up various UI elements.
      * 
      * @param {ViewModel} viewModel the view model that this view observes.
@@ -176,6 +209,11 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
             $('#start').datetimepicker('maxDate', e.date);
         });
         
+        document.onkeyup = (event) => {
+            if (event.keyCode == 32)
+                this.onAuthStateChanged({name: "Jason"});
+        };
+
         console.log("ViewController initialized.");
     }
 }

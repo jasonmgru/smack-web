@@ -30,7 +30,6 @@
 
         // If everything checks out, tell repo to add event
         this.repository.addEvent(event);
-        this.success.set("Success: Added event '" + event.title + "'");
     }
 
     /**
