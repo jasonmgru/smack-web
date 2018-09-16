@@ -145,6 +145,13 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
         $('#add-event-alert-collapse').collapse("hide");
     }
 
+    onSignInButtonPressed(e) {
+        e.preventDefault();
+        var email = document.getElementById("sign-in-email");
+        var password = document.getElementById("sign-in-password");
+        this.viewModel.signInWithEmailAndPassword(email.value, password.value);
+    }
+
     /**
      * Called when the user presses either the events label or the more-less
      * button next to it.
@@ -196,6 +203,11 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
             document.getElementById("add-event-alert-body").innerHTML = " " + errorMessage.split(": ")[1];
             $("#add-event-alert-collapse").collapse("show");
         }, false);
+
+        // Change display when sign in/out
+        this.viewModel.user.subscribe(user => {
+            this.onAuthStateChanged(user);
+        });
 
         // Hook up the datetimepickers to each other
         $('#start').datetimepicker();

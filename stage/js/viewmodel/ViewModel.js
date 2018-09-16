@@ -91,6 +91,8 @@
     constructor(repository) {
         this.repository = repository;
         this.events = repository.events; 
+        this.signInWithEmailAndPassword = repository.signInWithEmailAndPassword;
+        this.user = repository.user;
 
         repository.events.subscribe((key, event) => {
             event.time = this.getPrettyTimeRange(event.start, event.end);

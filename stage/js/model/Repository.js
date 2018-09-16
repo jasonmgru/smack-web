@@ -17,6 +17,30 @@
     }
 
     /**
+     * This function signs the user in with a standard email and password
+     * combination.
+     * 
+     * @param {String} email The email to sign in with.
+     * @param {String} password The user's password.
+     */
+    signInWithEmailAndPassword(email, password) {
+        firebase.auth().signInWithEmailAndPassword(email, password).catch(error => {
+            console.log(error);
+        });
+    }
+
+    onAuthStateChanged(user) {
+        if (user) {
+            this.user.set({
+                uid: user.uid,
+                email: user.email
+            });
+        } else {
+            this.user.set(null);
+        }
+    }
+
+    /**
      * Constructor.
      */
     constructor() {
@@ -31,6 +55,7 @@
         firebase.initializeApp(config);
 
         this.events = new ObservableMap();
+        this.user = new Observable(null);
 
         this.databaseReference = firebase.database().ref("events");
         this.databaseReference.on("child_added", data => {
@@ -46,6 +71,8 @@
         }, error => {
             console.log(error);
         });
+
+        firebase.auth().onAuthStateChanged(user => this.onAuthStateChanged(user));
 
 
         console.log("Repository initialized.");
