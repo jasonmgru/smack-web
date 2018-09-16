@@ -12,7 +12,8 @@
      * @param {object} event The event to be added. 
      */
     addEvent(event) {
-        this.databaseReference.push(event);
+        var key = firebase.database().ref("events").push().key;
+        firebase.database().ref("/events/"+key).set(event, error => {if (error) console.log(error)});
     }
 
     /**
@@ -38,7 +39,12 @@
             this.events.add(event.key, event);
             console.log(event);
         }, error => {
-            console.log("Client does not have permission to read from database.");
+            console.log(error);
+        });
+        this.databaseReference.on("child_removed", data => {
+            this.events.remove(data.key);
+        }, error => {
+            console.log(error);
         });
 
 
