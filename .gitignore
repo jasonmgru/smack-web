@@ -1,3 +1,11 @@
 test.html
 .DS_Store
 public/*
+functions/*
+.vscode
+.firebase
+.firebaserc
+database.rules.json
+firebase.json
+storage.rules
+*.cache
