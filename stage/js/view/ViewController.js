@@ -24,6 +24,7 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
                 mapTypeControl: false,
                 streetViewControl: false,
                 fullscreenControl: false,
+                zoomControl: false,
                 styles: [{
                         featureType: "poi",
                         elementType: "labels",
@@ -146,11 +147,52 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
         $('#add-event-alert-collapse').collapse("hide");
     }
 
+    onSignUpButtonPressed(e) {
+        e.preventDefault();
+        var first = document.getElementById("sign-up-first-name");
+        var last = document.getElementById("sign-up-last-name");
+        var email = document.getElementById("sign-up-email");
+        var password = document.getElementById("sign-up-password");
+        this.viewModel.signUpWithEmailAndPassword(first.value, last.value, email.value, password.value);
+    }
+
+    /**
+     * Called when the sign in button is pressed. Changes the view so that the
+     * user can see customized, user-specific content.
+     * 
+     * @param {Event} e 
+     */
     onSignInButtonPressed(e) {
         e.preventDefault();
         var email = document.getElementById("sign-in-email");
         var password = document.getElementById("sign-in-password");
         this.viewModel.signInWithEmailAndPassword(email.value, password.value);
+    }
+
+    onForgotPasswordButtonClicked(e) {
+        e.preventDefault();
+        console.log("thisis waht you're looking 4");
+        document.getElementById("reset-password-email").value = document.getElementById("sign-in-email").value;
+    }
+
+    /**
+     * Sends the user an email to reset their password.
+     * 
+     * @param {Event} e 
+     */
+    resetPassword(e) {
+        e.preventDefault(e);
+        this.viewModel.resetPassword();
+    }
+
+    /**
+     * Signs out the currently signed in user.
+     * 
+     * @param {Event} e 
+     */
+    onSignOutButtonPressed(e) {
+        e.preventDefault();
+        this.viewModel.signOut();
     }
 
     /**
@@ -160,14 +202,15 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
      * @param {Event} e
      */
     onEventsHeaderPressed(e) {
+        this.showEventsList = !this.showEventsList;
         var button = document.getElementById("more-less");
-        if (button.classList.contains("more-less-transition")) {
-            button.classList.remove("more-less-transition");
-        } else {
+        if (!this.showEventsList) {
             button.classList.add("more-less-transition");
+            $("#events-list-collapse").collapse("hide");
+        } else {
+            button.classList.remove("more-less-transition");
+            $("#events-list-collapse").collapse("show");
         }
-
-        $("#events-list-collapse").collapse("toggle");
     }
 
     /**
@@ -178,6 +221,8 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
      * @param {object} user 
      */
     onAuthStateChanged(user) {
+        document.getElementById("sign-in-form").reset();
+        document.getElementById("sign-up-form").reset();
         if (user) {
             document.getElementById("main-page-container").hidden = false;
             document.getElementById("login-page-container").style.opacity = "0";
@@ -185,7 +230,7 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
             document.getElementById("login-page-container").style.zIndex = "-1";
         } else {
             document.getElementById("login-page-container").style.opacity = "1";
-            document.getElementById("login-page-container").style.zIndex = "100";
+            document.getElementById("login-page-container").style.zIndex = "20";
             document.getElementById("login-page-container").style.top = "0";
             document.getElementById("main-page-container").hidden = true;
         }
@@ -199,6 +244,7 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
     constructor(viewModel) {
         this.viewModel = viewModel;
         this.mapAdapter;
+        this.showEventsList = true;
 
         // Hook up error alerts to error in viewModel
         this.viewModel.addEventError.subscribe((errorMessage) => {
@@ -231,7 +277,7 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
 
         $('.popover-dismiss').popover({
             trigger: 'focus'
-          });
+        });
 
         console.log("ViewController initialized.");
     }

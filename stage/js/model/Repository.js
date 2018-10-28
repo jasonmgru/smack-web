@@ -17,6 +17,26 @@
     }
 
     /**
+     * Signs up a new user with an email and password.
+     * 
+     * @param {string} email The email to sign the user up with.
+     * @param {string} password The password to sign the user up with.
+     */
+    signUpWithEmailAndPassword(first, last, email, password) {
+        var user = {
+            first: first,
+            last: last,
+            email: email
+        }
+        var key = firebase.database().ref("users").push().key;
+        firebase.database().ref("/users/"+key).set(user, error => {if (error) console.log(error)});
+
+        firebase.auth().createUserWithEmailAndPassword(email, password).catch(error => {
+            console.log(error);
+        });
+    }
+
+    /**
      * This function signs the user in with a standard email and password
      * combination.
      * 
@@ -29,6 +49,35 @@
         });
     }
 
+    /**
+     * Sends an email to the given email address to reset the password.
+     * 
+     * @param {string} email 
+     */
+    resetPassword(email) {
+        firebase.auth().sendPasswordResetEmail(email).then(() => {
+            console.log("email sent.");
+        }).catch(error => {
+            console.log(error);
+        });
+    }
+
+    /**
+     * Signs out.
+     */
+    signOut() {
+        firebase.auth().signOut().catch(error => {
+            console.log(error);
+        });
+    }
+
+    /**
+     * Called when the auth state changes. Updates the user object so other
+     * elements of the program can deal with it. The user is a fleshed out 
+     * object if someone is signed in, otherwise the user is set to null.
+     * 
+     * @param {object} user The user object to be observed.
+     */
     onAuthStateChanged(user) {
         if (user) {
             this.user.set({

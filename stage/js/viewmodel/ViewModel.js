@@ -91,7 +91,10 @@
     constructor(repository) {
         this.repository = repository;
         this.events = repository.events; 
+        this.signUpWithEmailAndPassword = repository.signUpWithEmailAndPassword;
         this.signInWithEmailAndPassword = repository.signInWithEmailAndPassword;
+        this.resetPassword = repository.resetPassword;
+        this.signOut = repository.signOut;
         this.user = repository.user;
 
         repository.events.subscribe((key, event) => {
