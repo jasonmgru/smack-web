@@ -104,22 +104,22 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body">
-                        <div class="container d-flex justify-content-center" style="margin-top: 16px;">
-                            <form id="reset-password-form" class="form-group row" onsubmit="viewController.resetPassword(event)">
-                                <div class="form-group row">
-                                    <label for="reset-password-email" class="col-2 main-text">Email</label>
-                                    <div class="col-10">
-                                        <input type="email" id="reset-password-email" class="form-control" required>
-                                        <small class="form-text" style="color: #999;">We'll send you a link to update your password.</small>
+                    <form id="reset-password-form" onsubmit="viewController.resetPassword(event)">
+                        <div class="modal-body">
+                            <div class="container d-flex justify-content-center" style="margin-top: 16px;">
+                                    <div class="form-group row">
+                                        <label for="reset-password-email" class="col-2 main-text">Email</label>
+                                        <div class="col-10">
+                                            <input type="email" id="reset-password-email" class="form-control" required>
+                                            <small class="form-text" style="color: #999;">We'll send you a link to update your password.</small>
+                                        </div>
                                     </div>
-                                </div>
-                            </form>
+                            </div>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-submit">Reset Password</button>
-                    </div>
+                        <div class="modal-footer d-flex justify-content-right">
+                            <button type="submit" class="btn btn-submit">Reset Password</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

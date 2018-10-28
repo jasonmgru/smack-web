@@ -171,7 +171,6 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
 
     onForgotPasswordButtonClicked(e) {
         e.preventDefault();
-        console.log("thisis waht you're looking 4");
         document.getElementById("reset-password-email").value = document.getElementById("sign-in-email").value;
     }
 
@@ -182,7 +181,7 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
      */
     resetPassword(e) {
         e.preventDefault(e);
-        this.viewModel.resetPassword();
+        this.viewModel.resetPassword(document.getElementById("reset-password-email").value);
     }
 
     /**

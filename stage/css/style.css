@@ -76,6 +76,10 @@
     transition: transform 300ms;
 }
 
+#dropdownMenuButton:hover {
+    cursor: pointer;
+}
+
 .more-less-transition {
     transform: rotate(180deg);
 }
