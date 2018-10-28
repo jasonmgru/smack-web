@@ -268,11 +268,6 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
         $("#end").on("change.datetimepicker", function (e) {
             $('#start').datetimepicker('maxDate', e.date);
         });
-        
-        document.onkeyup = (event) => {
-            if (event.keyCode == 32)
-                this.onAuthStateChanged({name: "Jason"});
-        };
 
         $('.popover-dismiss').popover({
             trigger: 'focus'
