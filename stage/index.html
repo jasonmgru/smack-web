@@ -99,16 +99,16 @@
 
             <!-- NAVBAR -->
             <nav id="nav" class="navbar navbar-dark" style="height: 60px;">
-                <div id="events-title" style="position: absolute; left: 20px; color: #fff; font-size: 1.2em; width: 20vw;">
+                <div id="events-title" style="position: absolute; left: 20px; color: #fff; font-size: 1.2em;">
                     <span id="events-header" onclick="viewController.onEventsHeaderPressed()">
                         <b id="events-header-text">Events</b>
                         <img id="more-less" src="img/less.svg">
                     </span>
-                    <img src="img/add_box.svg" data-target="#addEventModal" data-toggle="modal" style="cursor: pointer; float: right; margin-right: 25px;">
+                    <img id="add-event-button" src="img/add_box.svg" data-target="#addEventModal" data-toggle="modal" style="cursor: pointer; position: absolute; top: 0.2em; margin-left: 0.5em;">
                 </div>
 
                 <div style="margin-left: auto; margin-right: auto;">
-                    <a class="navbar-brand" id="page-title" href="#">Smack!</a>
+                    <a class="navbar-brand" id="page-title">Smack!</a>
                 </div>
                 <div id="profile" class="profile">
                     <img src="img/account.svg" alt="profile icon">
@@ -164,7 +164,7 @@
                                     </div>
                                 </div>
                                 <label for="description">Description</label>
-                                <textarea id="description" class="input-group form-control" type="text" name="add-event-input" placeholder="enter a description of the event (optional)" rows="6"></textarea>                 
+                                <textarea id="description" class="input-group form-control" type="text" name="add-event-input" placeholder="enter a description of the event (optional)" rows="2"></textarea>                 
                                 <br>    
                                 <div id="add-event-alert-collapse" class="collapse" aria-hidden="true">
                                     <div id="add-event-alert" class="alert alert-danger" role="alert">

@@ -8,33 +8,12 @@
     src: url(../font/backissues.otf) format("opentype");
 }
 
-.main-title {
-    margin: auto;
-    padding-top: 2vh;
-    text-align: center;
-    font-size: 6em;
-    color: white;
-    font-family: smack;
-}
-
-.sign-in-form {
-    display: block;
-}
-
-.why-join-item {
-    background: none;
-    color: white;
-}
-
-.main-text {
-    color: #808080
-}
-
 #login-page-container {
     transition-duration: 500ms;
 }
 
 #page-title {
+    color: white;
     font-family: smack;
     font-size: 2em;
 }
@@ -42,6 +21,7 @@
 #nav {
     z-index: 10;
     background-image: linear-gradient(to top right, #f81f26, #ff6e46);
+    box-shadow: 0 0 24px rgba(0, 0, 0, 0.35); 
 }
 
 #map {
@@ -68,6 +48,24 @@
     top: 60px;
     box-shadow: 0 0 24px rgba(0, 0, 0, 0.25); 
     border-radius: 4px;
+    z-index: 10;
+}
+
+#add-event-button2 {
+    float: right;
+    background-color: #f6343c;
+    width: 30px; 
+    height: 30px; 
+    margin: 5px;
+    margin-right: 10px;
+    border-radius: 50%;
+    transition: 300ms;
+    z-index: 11;
+    cursor: pointer;
+}
+
+#add-event-button2:hover {
+    background-color: #f65e34;
 }
 
 #events-header {
@@ -84,6 +82,28 @@
 
 #events-header-text:hover {
     text-decoration: underline;
+}
+
+.main-title {
+    margin: auto;
+    padding-top: 2vh;
+    text-align: center;
+    font-size: 6em;
+    color: white;
+    font-family: smack;
+}
+
+.sign-in-form {
+    display: block;
+}
+
+.why-join-item {
+    background: none;
+    color: white;
+}
+
+.main-text {
+    color: #808080
 }
 
 .list-header {

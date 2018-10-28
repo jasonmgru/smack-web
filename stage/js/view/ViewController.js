@@ -181,10 +181,12 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
         if (user) {
             document.getElementById("main-page-container").hidden = false;
             document.getElementById("login-page-container").style.opacity = "0";
+            document.getElementById("login-page-container").style.top = "-2vh";
             document.getElementById("login-page-container").style.zIndex = "-1";
         } else {
             document.getElementById("login-page-container").style.opacity = "1";
             document.getElementById("login-page-container").style.zIndex = "100";
+            document.getElementById("login-page-container").style.top = "0";
             document.getElementById("main-page-container").hidden = true;
         }
     }
