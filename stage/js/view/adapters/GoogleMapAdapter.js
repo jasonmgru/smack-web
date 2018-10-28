@@ -104,7 +104,7 @@ class GoogleMapAdapter {
 
         // Hook up the Marker to the InfoWindow
         marker.addListener("mouseover", () => this.openInfoWindow(infowindow, marker));
-        marker.addListener("closeclick", () => {
+        infowindow.addListener("closeclick", () => {
             console.log("closed");
             this.infowindow = null;
         });
@@ -116,6 +116,11 @@ class GoogleMapAdapter {
         this.markers[event.key] = {marker: marker, infowindow: infowindow};
     }
 
+    /**
+     * Removes a marker from the map given an event associated with it.
+     * 
+     * @param {object} event The event whose marker should be removed.
+     */
     removeMarker(event) {
         var marker = this.markers[event.key].marker;
         delete this.markers[event.key];
