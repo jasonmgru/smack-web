@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+        <title>Smack! Web Application</title>
+    
+        <link rel="stylesheet" href="css/bootstrap.css">
+        <link rel="stylesheet" href="css/style.css">        
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/css/tempusdominus-bootstrap-4.min.css" />
+    </head>
+    <body>
+
+        <!-- LOGIN PAGE -->
+        <div id="login-page-container" style="position: absolute; left: 0; top: 0; width: 100vw;">
+
+            <!-- LEFT SIDE -->
+            <div style="width: 50%; height: 100vh; position: absolute; left: 0; background-image: linear-gradient(to top right, #f6343c, #f65e34);">
+                <h1 class="main-title">Smack!</h1>
+                
+                <div style="height: 20vh;"></div>
+    
+                <h3 class="font-header" style="color: white; margin: auto; text-align: center; margin: 1vh;">Why create an account?</h3>
+                <div class="container" style="width: 50%; margin: auto; text-align: center;">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item font-header why-join-item">Find free food!</li>
+                        <li class="list-group-item font-header why-join-item">Find your community!</li>
+                        <li class="list-group-item font-header why-join-item">Host private events!</li>
+                        <li class="list-group-item font-header why-join-item">It's free and always will be!</li>
+                    </ul>
+                </div>
+            </div>
+    
+            <!-- RIGHT SIDE -->
+            <div class="color-background" style="position: absolute; width: 50%; height: 100vh; right: 0;">
+    
+                <!-- SIGN IN FORM -->
+                <div class="container" style="margin-top: 16px;">
+                    <form id="sign-in-form" class="form-group row" onsubmit="viewController.onSignInButtonPressed(event)">
+                        <div class="col-5">
+                            <input id="sign-in-email" type="email" class="form-control" placeholder="email">
+                        </div>
+                        <div class="col-5">
+                            <input id="sign-in-password" type="password" class="form-control" placeholder="password">
+                            <small class="form-text text-muted"><a href="#" style="color: #999;" data-target="#forgotPasswordModal" data-toggle="modal" onclick="viewController.onForgotPasswordButtonClicked(event)">Forgot password?</a></small>
+                        </div>
+                        <div class="col-2">
+                            <button type="submit" class="btn btn-submit">Sign In</button>
+                        </div>
+                    </form>
+                </div>
+                <hr>
+    
+                <div style="height: 21vh;"></div>
+    
+                <!-- SIGN UP FORM -->
+                <div class="container" style="margin-top: 16px;">
+                    <h3 class="font-header main-text" style="margin: auto; text-align: center; margin: 1vh;">Join the community!</h3>
+                    <form id="sign-up-form" style="width: 60%; margin: auto;" onsubmit="viewController.onSignUpButtonPressed(event)">
+                        <div class="form-group row">
+                            <label for="sign-up-first-name" class="col-4 main-text">First Name</label>
+                            <input type="text" id="sign-up-first-name" class="form-control col-8" required>
+                        </div>
+                        <div class="form-group row">
+                            <label for="sign-up-last-name" class="col-4 main-text">Last Name</label>
+                            <input type="text" id="sign-up-last-name" class="form-control col-8" required>
+                        </div>
+                        <div class="form-group row">
+                            <label for="sign-up-email" class="col-4 main-text">Email</label>
+                            <input type="email" id="sign-up-email" class="form-control col-8" required>
+                        </div>
+                        <div class="form-group row">
+                            <label for="sign-up-password" class="col-4 main-text">New Password</label>
+                            <div class="col-8" style="padding: 0;">
+                                <input type="password" id="sign-up-password" class="form-control" required>
+                                <small class="form-text" style="color: #999;">Password must contain at least 8 characters, a letter, and a number</small>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-submit row" style="float: right;">Sign Up</button>
+                    </form>
+    
+                    <div style="height: 7vh;"></div>
+                    <p class="main-text" style="text-align: center;">
+                        <small>
+                            <a href="#" id="popover" data-toggle="popover" data-trigger="focus" data-content="this is a popover">
+                                Apply for a provider page
+                            </a>
+                                to create public events!
+                        </small>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- FORGOT PASSWORD MODAL -->
+        <div class="modal fade" id="forgotPasswordModal" tabindex="-1" role="dialog" aria-labelledby="forgotPasswordModal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color: #eee;">
+                        <h5 class="modal-title list-header" style="color: gray;" id="forgotPasswordModalLabel">Forgot Password?</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form id="reset-password-form" onsubmit="viewController.resetPassword(event)">
+                        <div class="modal-body">
+                            <div class="container d-flex justify-content-center" style="margin-top: 16px;">
+                                    <div class="form-group row">
+                                        <label for="reset-password-email" class="col-2 main-text">Email</label>
+                                        <div class="col-10">
+                                            <input type="email" id="reset-password-email" class="form-control" required>
+                                            <small class="form-text" style="color: #999;">We'll send you a link to update your password.</small>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer d-flex justify-content-right">
+                            <button type="submit" class="btn btn-submit">Reset Password</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- MAIN PAGE -->
+        <div id="main-page-container" hidden>
+
+            <!-- NAVBAR -->
+            <nav id="nav" class="navbar navbar-dark" style="height: 60px;">
+                <div id="events-title" style="position: absolute; left: 20px; color: #fff; font-size: 1.2em;">
+                    <span id="events-header" onclick="viewController.onEventsHeaderPressed()">
+                        <b id="events-header-text">Events</b>
+                        <img id="more-less" src="img/less.svg">
+                    </span>
+                    <img id="add-event-button" src="img/add_box.svg" data-target="#addEventModal" data-toggle="modal" style="cursor: pointer; position: absolute; top: 0.2em; margin-left: 0.5em;">
+                </div>
+
+                <div style="margin-left: auto; margin-right: auto;">
+                    <a class="navbar-brand" id="page-title">Smack!</a>
+                </div>
+                <div id="profile" class="profile">
+                    <div class="dropdown">
+                        <img class="dropdown-toggle" src="img/account.svg" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" alt="profile icon">
+                        <div class="dropdown-menu dropdown-menu-right" style="right: 0; left: auto;" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" onclick="viewController.onSignOutButtonPressed(event)">Sign Out</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- MAP -->
+            <div id="map"></div>
+
+            <!-- EVENTS LIST -->
+            <div class="collapse show" id="events-list-collapse">
+                <ul id="events-list" class="list-group" style="margin: 0;"></ul>
+            </div>
+
+            <!-- RADIO BUTTONS -->
+            <div id="selector" class="btn-group">
+                <button id="mpls" class="btn btn-smack" onclick="viewController.onRadioButtonPressed(event)">Minneapolis</button>
+                <button id="stpl" class="btn btn-smack" onclick="viewController.onRadioButtonPressed(event)">St. Paul</button>
+            </div>
+        
+            <!-- ADD EVENT MODAL -->
+            <div class="modal fade" id="addEventModal" tabindex="-1" role="dialog" aria-labelledby="addEventModal" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header" style="background-color: #eee;">
+                            <h5 class="modal-title list-header" style="color: gray;" id="addEventModalLabel">Add an Event</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form id="add_event_form" onsubmit="viewController.onAddEventSubmitButtonPressed(event)" onreset="viewController.onAddEventResetButtonPressed(event)">
+                            <div class="modal-body form-group">
+                                <label for="title">Title</label>
+                                <input id="title" class="input-group form-control" name="add-event-input" type="text" required placeholder="enter an event title">
+                                <div class="row">
+                                    <div class="col">   
+                                        <label for="host">Host</label>
+                                        <input id="host" class="input-group form-control" type="text" name="add-event-input" required placeholder="enter the host name">
+                                    </div>
+                                    <div class="col">
+                                        <label for="address">Address</label>
+                                        <input id="address" class="input-group form-control" type="text" name="add-event-input" required placeholder="enter a location">  
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <label for="start">Start Time</label>
+                                        <input type="text" id="start" name="add-event-input" class="form-control datetimepicker-input" data-target="#start" data-toggle="datetimepicker" required placeholder="choose start time"/>
+                                    </div>
+                                    <div class="col-4">
+                                        <label for="end">End Time</label>
+                                        <input type="text" id="end" name="add-event-input" class="form-control datetimepicker-input" data-target="#end" data-toggle="datetimepicker" required placeholder="choose end time"/>
+                                    </div>
+                                </div>
+                                <label for="description">Description</label>
+                                <textarea id="description" class="input-group form-control" type="text" name="add-event-input" placeholder="enter a description of the event (optional)" rows="2"></textarea>                 
+                                <br>    
+                                <div id="add-event-alert-collapse" class="collapse" aria-hidden="true">
+                                    <div id="add-event-alert" class="alert alert-danger" role="alert">
+                                        <strong id="add-event-alert-title"></strong><span id="add-event-alert-body"></span>
+                                    </div>
+                                </div> 
+                            </div>
+                            <div class="modal-footer">
+                                <button type="reset" class="btn btn-light">Reset</button>
+                                <button type="submit" class="btn btn-submit">Add Event</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EVENT DETAIL MODAL -->
+            <div class="modal fade" id="eventDetailModal" tabindex="-1" role="dialog" aria-labelledby="eventDetailModal" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header" style="background-color: #eee;">
+                            <h5 class="modal-title list-header" style="color: gray;" id="eventDetailModalLabel">Event Details</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <h6 id="title-display" name="event-detail-display" style="font-family: smack-sub; font-weight: bold;"></h6>
+                            <a href="#" id="address-display" onclick="$('#eventDetailModal').modal('hide')"></a><br>
+                            <span style="color: gray;">
+                                <span id="host-display"></span><br>
+                                <span id="time-display"></span><br>
+                            </span><br>
+                            <p id="description-display" name="event-detail-display"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FIREBASE -->        
+        <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-database.js"></script>
+
+        <!-- BOOTSTRAP -->
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+        <!-- BOOTSTRAP DATETIME PICKER -->
+        <script src="js/utils/moment.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/js/tempusdominus-bootstrap-4.min.js"></script>
+
+        <!-- GOOGLE MAPS / PLACES -->
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAadlWbE-H5rXrXEiyN9bVD_bCVjH8Hv28&libraries=places&callback=viewController.initGoogle" async defer></script>
+        
+        <!-- CUSTOM SCRIPT -->
+        <script src="js/utils/Observable.js"></script>
+        <script src="js/model/Repository.js"></script>
+        <script src="js/viewmodel/ViewModel.js"></script>
+        <script src="js/view/adapters/GoogleMapAdapter.js"></script>
+        <script src="js/view/ViewController.js"></script>
+        <script src="js/utils/setup.js"></script>
+
+    </body>
+</html>
