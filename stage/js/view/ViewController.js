@@ -227,6 +227,7 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
             document.getElementById("login-page-container").style.opacity = "0";
             document.getElementById("login-page-container").style.top = "-2vh";
             document.getElementById("login-page-container").style.zIndex = "-1";
+            document.getElementById("profile-name").innerHTML = user.first;
         } else {
             document.getElementById("login-page-container").style.opacity = "1";
             document.getElementById("login-page-container").style.zIndex = "20";

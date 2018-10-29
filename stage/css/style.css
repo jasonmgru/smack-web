@@ -8,6 +8,10 @@
     src: url(../font/backissues.otf) format("opentype");
 }
 
+body {
+    background-color: #eee;
+}
+
 #login-page-container {
     transition-duration: 500ms;
 }
@@ -68,23 +72,15 @@
     background-color: #f65e34;
 }
 
-#events-header {
-    cursor: pointer;
-}
-
 #more-less {
     transition: transform 300ms;
-}
-
-#dropdownMenuButton:hover {
-    cursor: pointer;
 }
 
 .more-less-transition {
     transform: rotate(180deg);
 }
 
-#events-header-text:hover {
+.underline:hover {
     text-decoration: underline;
 }
 

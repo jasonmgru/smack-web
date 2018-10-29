@@ -28,10 +28,10 @@
             last: last,
             email: email
         }
-        var key = firebase.database().ref("users").push().key;
-        firebase.database().ref("/users/"+key).set(user, error => {if (error) console.log(error)});
 
-        firebase.auth().createUserWithEmailAndPassword(email, password).catch(error => {
+        firebase.auth().createUserWithEmailAndPassword(email, password).then(() => {
+            firebase.database().ref("/users/"+firebase.auth().currentUser.uid).set(user, error => {console.log(error)});
+        }).catch(error => {
             console.log(error);
         });
     }
@@ -80,12 +80,30 @@
      */
     onAuthStateChanged(user) {
         if (user) {
-            this.user.set({
-                uid: user.uid,
-                email: user.email
+            firebase.database().ref("/users/"+user.uid).once("value").then(snapshot => {
+                var userInfo = snapshot.val();
+                this.user.set({
+                    uid: user.uid,
+                    email: user.email,
+                    first: userInfo.first,
+                    last: userInfo.last
+                });
+                firebase.database().ref("events").on("child_added", data => {
+                    var event = data.val();
+                    event.key = data.key;
+                    this.events.add(event.key, event);
+                    console.log(event);
+                }, error => {
+                    console.log(error);
+                });
+                firebase.database().ref("events").on("child_removed", data => {
+                    this.events.remove(data.key);
+                }, error => {
+                    console.log(error);
+                });
             });
         } else {
-            this.user.set(null);
+            if (this.user.value !== null) window.location.reload(true);
         }
     }
 
@@ -106,23 +124,7 @@
         this.events = new ObservableMap();
         this.user = new Observable(null);
 
-        this.databaseReference = firebase.database().ref("events");
-        this.databaseReference.on("child_added", data => {
-            var event = data.val();
-            event.key = data.key;
-            this.events.add(event.key, event);
-            console.log(event);
-        }, error => {
-            console.log(error);
-        });
-        this.databaseReference.on("child_removed", data => {
-            this.events.remove(data.key);
-        }, error => {
-            console.log(error);
-        });
-
         firebase.auth().onAuthStateChanged(user => this.onAuthStateChanged(user));
-
 
         console.log("Repository initialized.");
     }
