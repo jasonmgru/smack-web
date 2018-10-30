@@ -104,6 +104,7 @@ class GoogleMapAdapter {
 
         // Hook up the Marker to the InfoWindow
         marker.addListener("mouseover", () => this.openInfoWindow(infowindow, marker));
+        marker.addListener("click", () => onInfoWindowClicked(event));
         infowindow.addListener("closeclick", () => {
             this.infowindow = null;
         });
