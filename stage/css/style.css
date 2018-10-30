@@ -47,12 +47,23 @@ body {
 }
 
 #events-list-collapse {
-    width: 20vw; 
     position: absolute;
     top: 60px;
     box-shadow: 0 0 24px rgba(0, 0, 0, 0.25); 
     border-radius: 4px;
     z-index: 10;
+}
+
+@media (max-width: 250px) {
+    #events-list-collapse {
+        width: 100%;
+    }
+}
+
+@media (min-width: 251px) {
+    #events-list-collapse {
+        width: 250px; 
+    }
 }
 
 #add-event-button2 {

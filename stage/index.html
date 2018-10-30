@@ -180,31 +180,31 @@
                         </div>
                         <form id="add_event_form" onsubmit="viewController.onAddEventSubmitButtonPressed(event)" onreset="viewController.onAddEventResetButtonPressed(event)">
                             <div class="modal-body form-group">
-                                <label for="photo">Photo</label>
-                                <div id="drop-area" class="input-group form-control d-flex justify-content-center" style="width: 300px; height: 150px;">
-                                    <img id="drop-area-display" src="#" style="max-width: 300px; max-height: 150px; display: none;" alt="">
-                                    <input type="file" accept="image/*" id="photo" style="display: none;">
-                                </div>
-                                <label for="title">Title</label>
-                                <input id="title" class="input-group form-control" name="add-event-input" type="text" required placeholder="enter an event title">
                                 <div class="row">
-                                    <div class="col">   
-                                        <label for="host">Host</label>
-                                        <input id="host" class="input-group form-control" type="text" name="add-event-input" required placeholder="enter the host name">
+                                    <div class="col-lg">
+                                        <button type="button" style="padding: 0;" class="btn btn-link"><label style="cursor: pointer;" for="photo">Upload a Photo</label></button>
+                                        <div id="drop-area" class="d-flex justify-content-center" style="width: 100%; height: 0; padding: 0; padding-bottom: 70%;">
+                                            <img id="drop-area-display" src="#" style="object-fit: contain; height: 100%; width: 100%; display: none;" alt="">
+                                            <input type="file" accept="image/*" id="photo" style="display: none;">
+                                        </div>
                                     </div>
-                                    <div class="col">
+                                    <div class="col-lg">
+                                        <label for="title">Title</label>
+                                        <input id="title" class="input-group form-control" name="add-event-input" type="text" required placeholder="enter an event title">
                                         <label for="address">Address</label>
                                         <input id="address" class="input-group form-control" type="text" name="add-event-input" required placeholder="enter a location">  
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-4">
-                                        <label for="start">Start Time</label>
-                                        <input type="text" id="start" name="add-event-input" class="form-control datetimepicker-input" data-target="#start" data-toggle="datetimepicker" required placeholder="choose start time"/>
-                                    </div>
-                                    <div class="col-4">
-                                        <label for="end">End Time</label>
-                                        <input type="text" id="end" name="add-event-input" class="form-control datetimepicker-input" data-target="#end" data-toggle="datetimepicker" required placeholder="choose end time"/>
+                                        <div class="row">
+                                            <div class="col">
+                                                <label for="start">Start Time</label>
+                                                <input type="text" id="start" name="add-event-input" class="form-control datetimepicker-input" data-target="#start" data-toggle="datetimepicker" required placeholder="choose start time"/>
+                                                <label for="host">Host</label>
+                                                <input id="host" class="input-group form-control" type="text" name="add-event-input" required placeholder="enter the host name">
+                                            </div>
+                                            <div class="col">
+                                                <label for="end">End Time</label>
+                                                <input type="text" id="end" name="add-event-input" class="form-control datetimepicker-input" data-target="#end" data-toggle="datetimepicker" required placeholder="choose end time"/>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <label for="description">Description</label>

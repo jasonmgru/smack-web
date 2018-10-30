@@ -96,6 +96,7 @@
         this.resetPassword = repository.resetPassword;
         this.signOut = repository.signOut;
         this.user = repository.user;
+        this.showEventsList = new Observable(true);
 
         repository.events.subscribe((key, event) => {
             event.time = this.getPrettyTimeRange(event.start, event.end);

@@ -75,8 +75,12 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
         });
         var li = document.createElement("li");
         li.addEventListener("click", () => {
+            if ($(document).width() < 251) {
+                this.viewModel.showEventsList.set(false);
+            }
             this.mapAdapter.centerMapOnEvent(event);
             this.openDetailWindow(event);
+            e.stopPropagation();
         });
         li.classList.add("list-group-item");
         li.classList.add("list-group-item-action");
@@ -212,15 +216,8 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
      * @param {Event} e
      */
     onEventsHeaderPressed(e) {
-        this.showEventsList = !this.showEventsList;
-        var button = document.getElementById("more-less");
-        if (!this.showEventsList) {
-            button.classList.add("more-less-transition");
-            $("#events-list-collapse").collapse("hide");
-        } else {
-            button.classList.remove("more-less-transition");
-            $("#events-list-collapse").collapse("show");
-        }
+        let show = this.viewModel.showEventsList;
+        show.set(!show.value);
     }
 
     /**
@@ -247,6 +244,9 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
         }
     }
 
+    /**
+     * Sets up the drag and drop behavior for the add event window. 
+     */
     setUpDragAndDrop() {
         let dropArea = document.getElementById("drop-area");
         let photoInput = document.getElementById("photo");
@@ -271,9 +271,13 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
             displayArea.src = fr.result;
             displayArea.style.display = "block";
         }, false);
-        photoInput.addEventListener("change", (e) => {
-            if (photoInput.files[0] != null && photoInput.files[0] != undefined)
+        ;["change", "reset"].forEach(eventName => {
+            photoInput.addEventListener(eventName, () => {
+                if (photoInput.files && photoInput.files.length > 0)
                 fr.readAsDataURL(photoInput.files[0]);
+            else
+                displayArea.style.display = "none";
+            }, false);
         });
         function handleDrop(e) {
             photoInput.files = e.dataTransfer.files;
@@ -290,7 +294,17 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
     constructor(viewModel) {
         this.viewModel = viewModel;
         this.mapAdapter;
-        this.showEventsList = true;
+
+        // Hook up events list to viewModel
+        this.viewModel.showEventsList.subscribe((value) => {
+            if (value) {
+                document.getElementById("more-less").classList.remove("more-less-transition");
+                $("#events-list-collapse").collapse("show");
+            } else {
+                document.getElementById("more-less").classList.add("more-less-transition");
+                $("#events-list-collapse").collapse("hide");
+            }
+        });
 
         // Hook up error alerts to error in viewModel
         this.viewModel.addEventError.subscribe((errorMessage) => {
