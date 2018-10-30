@@ -12,10 +12,6 @@ body {
     background-color: #eee;
 }
 
-#login-page-container {
-    transition-duration: 500ms;
-}
-
 #page-title {
     color: white;
     font-family: smack;
@@ -85,6 +81,12 @@ body {
 
 #more-less {
     transition: transform 300ms;
+}
+
+@media (min-width: 576px) {
+    #see-more {
+        display: none;
+    }
 }
 
 .more-less-transition {

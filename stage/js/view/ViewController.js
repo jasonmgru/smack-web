@@ -336,7 +336,7 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
 
         this.setUpDragAndDrop();
 
-        this.viewModel.signInWithEmailAndPassword("jasonmgru@gmail.com", "redwire15");
+        //this.viewModel.signInWithEmailAndPassword("jasonmgru@gmail.com", "redwire15");
 
         console.log("ViewController initialized.");
     }
