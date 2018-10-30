@@ -133,6 +133,10 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
         document.getElementsByName("add-event-input").forEach(function(element){
             event[element.id] = element.value;
         });
+        var photoInput = document.getElementById("photo");
+        if (photoInput.files && photoInput.files.length > 0) {
+            event["photo"] = photoInput.files[0];
+        }
         this.viewModel.addEvent(event);
         $("#addEventModal").modal("hide");
     }
@@ -169,6 +173,13 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
         this.viewModel.signInWithEmailAndPassword(email.value, password.value);
     }
 
+    /**
+     * Simple function called when the forgot password button is clicked. Just 
+     * updates the text field of the "forgot password" modal to show the email
+     * that was in the previous email field.
+     * 
+     * @param {Event} e 
+     */
     onForgotPasswordButtonClicked(e) {
         e.preventDefault();
         document.getElementById("reset-password-email").value = document.getElementById("sign-in-email").value;
@@ -236,6 +247,41 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
         }
     }
 
+    setUpDragAndDrop() {
+        let dropArea = document.getElementById("drop-area");
+        let photoInput = document.getElementById("photo");
+        let displayArea = document.getElementById("drop-area-display");
+        function preventDefaults(e) {
+            e.stopPropagation();
+            e.preventDefault();
+        }
+        ;["dragenter", "dragleave", "dragover", "drop"].forEach(eventName => {
+            document.addEventListener(eventName, preventDefaults, false);
+        });
+        function highlight(e) { dropArea.style.backgroundColor = "#eee"; }
+        function unhighlight(e) { dropArea.style.backgroundColor = "#fff"; }
+        ;["dragenter", "dragover"].forEach(eventName => {
+            dropArea.addEventListener(eventName, highlight, false);
+        });
+        ;["dragleave", "drop"].forEach(eventName => {
+            dropArea.addEventListener(eventName, unhighlight, false);
+        });
+        let fr = new FileReader();
+        fr.addEventListener("load", () => {
+            displayArea.src = fr.result;
+            displayArea.style.display = "block";
+        }, false);
+        photoInput.addEventListener("change", (e) => {
+            if (photoInput.files[0] != null && photoInput.files[0] != undefined)
+                fr.readAsDataURL(photoInput.files[0]);
+        });
+        function handleDrop(e) {
+            photoInput.files = e.dataTransfer.files;
+            console.log(photoInput.files);
+        }
+        dropArea.addEventListener("drop", handleDrop, false);
+    }
+
     /**
      * Constructor. This is fairly long, but it is mostly setting up various UI elements.
      * 
@@ -273,6 +319,10 @@ const ALL = {center: {lat: 44.976859, lng: -93.215119}, zoom: 13.0}
         $('.popover-dismiss').popover({
             trigger: 'focus'
         });
+
+        this.setUpDragAndDrop();
+
+        this.viewModel.signInWithEmailAndPassword("jasonmgru@gmail.com", "redwire15");
 
         console.log("ViewController initialized.");
     }

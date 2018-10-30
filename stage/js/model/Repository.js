@@ -12,8 +12,15 @@
      * @param {object} event The event to be added. 
      */
     addEvent(event) {
+        let photo = event.photo;
+        delete event["photo"];
+
         var key = firebase.database().ref("events").push().key;
         firebase.database().ref("/events/"+key).set(event, error => {if (error) console.log(error)});
+
+        firebase.storage().ref("/events/"+key+"/"+photo.name).put(photo).catch(error => {
+            console.log(error);
+        });
     }
 
     /**

@@ -147,6 +147,7 @@
                             <b id="profile-name" class="underline" style="color: #fff; font-size: 1.2em;"></b>
                         </div>
                         <div class="dropdown-menu dropdown-menu-right" style="right: 0; left: auto;" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item">Profile</a>
                             <a class="dropdown-item" onclick="viewController.onSignOutButtonPressed(event)">Sign Out</a>
                         </div>
                     </div>
@@ -179,6 +180,11 @@
                         </div>
                         <form id="add_event_form" onsubmit="viewController.onAddEventSubmitButtonPressed(event)" onreset="viewController.onAddEventResetButtonPressed(event)">
                             <div class="modal-body form-group">
+                                <label for="photo">Photo</label>
+                                <div id="drop-area" class="input-group form-control d-flex justify-content-center" style="width: 300px; height: 150px;">
+                                    <img id="drop-area-display" src="#" style="max-width: 300px; max-height: 150px; display: none;" alt="">
+                                    <input type="file" accept="image/*" id="photo" style="display: none;">
+                                </div>
                                 <label for="title">Title</label>
                                 <input id="title" class="input-group form-control" name="add-event-input" type="text" required placeholder="enter an event title">
                                 <div class="row">
@@ -247,6 +253,7 @@
         <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-app.js"></script>
         <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-auth.js"></script>
         <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-database.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-storage.js"></script>
 
         <!-- BOOTSTRAP -->
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
